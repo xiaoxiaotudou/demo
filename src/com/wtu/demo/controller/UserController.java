@@ -4,12 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/user")
 public class UserController {
 
-	@RequestMapping("/reg")
-	public String reg() {
-		System.out.println("1111");
-		return "1111";
-	}
+    //@Autowired
+    //private UserServiceImpl userService;
+
+	@RequestMapping("/signin")
+	public String signin() {
+	    System.out.println("111111");
+	    return "1111";
+    }
 }
