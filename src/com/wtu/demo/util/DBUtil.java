@@ -7,23 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBUtil {
-    private static final String DRIVER = "jdbc.driver";
-    private static final String URL = "jdbc.url";
-    private static final String USER = "jdbc.user";
-    private static final String PASSWORD = "jdbc.password";
-
     public static Connection getConnection() throws ClassNotFoundException {
         try {
-            Class.forName(PropertyUtil.getProperty(DRIVER));
+            Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException();
         }
 
-        String jdbcUrl = PropertyUtil.getProperty(URL);
+        String jdbcUrl = "jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf8";
         Connection conn = null;
 
         try {
-             conn= DriverManager.getConnection(jdbcUrl, PropertyUtil.getProperty(USER), PropertyUtil.getProperty(PASSWORD));
+             conn= DriverManager.getConnection(jdbcUrl, "root", "abc123_");
         } catch (SQLException e) {
             throw new RuntimeException();
         }

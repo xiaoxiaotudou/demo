@@ -1,5 +1,7 @@
 package com.wtu.demo.dao;
 
-public interface UserDao {
+import com.wtu.demo.model.User;
 
+public interface UserDao {
+    public User getUserByEmail(String email);
 }
