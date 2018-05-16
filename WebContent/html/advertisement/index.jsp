@@ -8,34 +8,24 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Insert title here</title>
-        <link rel="stylesheet" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
-        <link href="<%=basePath %>/dist/summernote.css" rel="stylesheet"/>
-        <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-        <script src="http://www.jq22.com/jquery/bootstrap-3.3.4.js"></script>
-        <script src="<%=basePath %>/dist/summernote.js"></script>
-        <script src="<%=basePath %>/dist/lang/summernote-zh-CN.js"></script>
     </head>
     <body>
     <form action="<%=basePath %>/advertisement/create" method="post" id="advertisementForm">
-        <div class="summernote"></div>
         <input type="text" name="weight" />
         <input type="hidden" name="detail" id="detail" />
+        <!-- 加载编辑器的容器 -->
+	    <script id="container" name="content" type="text/plain">
+        这里写你的初始化内容
+    	</script>
+	    <!-- 配置文件 -->
+	    <script type="text/javascript" src="<%=basePath %>/ueditor/ueditor.config.js"></script>
+	    <!-- 编辑器源码文件 -->
+	    <script type="text/javascript" src="<%=basePath %>/ueditor/ueditor.all.js"></script>
+	    <!-- 实例化编辑器 -->
+	    <script type="text/javascript">
+	        var ue = UE.getEditor('container');
+	    </script>
         <input type="button" id="submit" value="提交" />
     </form>
     </body>
-    <script type="text/javascript">
-        $(function(){
-             $('.summernote').summernote({
-                    height: 400,
-                    tabsize: 2,
-                    lang: 'zh-CN'
-             });
-
-             $('#submit').on('click', function() {
-            	 var detail = $('#summernote').summernote('code');
-            	 $('#detail').val(detail);
-            	 alert(eval(detail));
-             });
-        })
-    </script>
 </html>
