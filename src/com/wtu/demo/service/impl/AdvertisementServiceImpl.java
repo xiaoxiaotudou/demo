@@ -8,13 +8,18 @@ import com.wtu.demo.service.AdvertisementService;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
-	
+
 	@Autowired
 	private AdvertisementDaoImpl advertisementDaoImpl;
-	
+
 	@Override
 	public boolean createAdvertisement(String categoryId, String weight,
 			String description, String detail) {
 		return advertisementDaoImpl.createAdvertisement(Long.valueOf(categoryId), Double.valueOf(weight), description, detail);
 	}
+
+    @Override
+    public String getAdvertisementById(String pkId) {
+        return advertisementDaoImpl.getAdvertisementById(Long.valueOf(pkId));
+    }
 }

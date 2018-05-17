@@ -23,12 +23,12 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("insert into advertisement(categoryId, weight, description, detail, deleted) values(?, ?, ?, ?, 0)");
+            preparedStatement = connection.prepareStatement("insert into advertisement(categoryId, weight, description, detail) values(?, ?, ?, ?)");
             preparedStatement.setLong(1, categoryId);
             preparedStatement.setDouble(2, weight);
             preparedStatement.setString(3, description);
             preparedStatement.setString(4, detail);
-            
+
             result = preparedStatement.execute();
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -37,12 +37,12 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         } finally {
             DBUtil.close(resultSet, preparedStatement, connection);
         }
-        
-        return result;
+
+        return !result;
 	}
 
 	@Override
-	public String getAdvertisement(Long pkId) {
+	public String getAdvertisementById(Long pkId) {
 		Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -64,7 +64,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         } finally {
             DBUtil.close(resultSet, preparedStatement, connection);
         }
-        
+
         return detail;
 	}
 }

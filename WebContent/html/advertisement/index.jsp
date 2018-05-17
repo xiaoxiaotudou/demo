@@ -36,6 +36,7 @@
             <h1>详细信息：</h1>
             <script id="container" name="content" type="text/plain"></script>
             <input type="button" id="submit" value="提交" style="float: right;margin-top: 20px;font-size: 2em;border-radius: 10px;">
+            <div id="Test"></div>
         </div>
     </body>
     <script>
@@ -58,7 +59,7 @@
                     data: {categoryId : categoryId, weight : weight, description : description, detail : detail},
                     datatype: "json",
                     success: function(data){
-                    	
+                        $('#test').html(eval(data));
                     }
                 });
             });

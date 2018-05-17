@@ -16,7 +16,7 @@ public class AdvertisementController extends BaseController {
 
 	@Autowired
 	private AdvertisementServiceImpl advertisementServiceImpl;
-	
+
 	@RequestMapping("/index")
 	public String index(){
         return "redirect:/html/advertisement/index.jsp";
@@ -29,10 +29,20 @@ public class AdvertisementController extends BaseController {
 	        @RequestParam("weight") String weight,
 	        @RequestParam("description") String description,
 	        @RequestParam("detail") String detail) {
-		boolean result = false; 
-		
+		boolean result = false;
+
 		result = advertisementServiceImpl.createAdvertisement(categoryId, weight, description, detail);
-	    
+
 		return JsonUtil.convertObjectToJson(result);
 	}
+
+	@RequestMapping(value="/get", method=RequestMethod.GET)
+    @ResponseBody
+    public String getAdvertisementById(@RequestParam("advertisementId") String advertisementId) {
+	    String result = null;
+
+        result = advertisementServiceImpl.getAdvertisementById(advertisementId);
+
+        return JsonUtil.convertObjectToJson(result);
+    }
 }
