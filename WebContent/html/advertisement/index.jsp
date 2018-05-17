@@ -20,10 +20,10 @@
 	            <span style="font-size: 2em;font-weight: bold;">广告类别：</span>
 	            <span>
 		            <select id="categoryId">
-		                <option value ="volvo">Volvo</option>
-		                <option value ="saab">Saab</option>
-		                <option value="opel">Opel</option>
-		                <option value="audi">Audi</option>
+		                <option value ="1">Volvo</option>
+		                <option value ="2">Saab</option>
+		                <option value="3">Opel</option>
+		                <option value="4">Audi</option>
 		            </select>
 	            </span>
             </div>
