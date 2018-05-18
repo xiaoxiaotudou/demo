@@ -2,6 +2,7 @@ package com.wtu.demo.model;
 
 public class Dish {
 	private long pkId;
+	private long dishCategoryId;
 	private String dishName;
 	private double dishPrice;
 	private String image;
@@ -11,6 +12,12 @@ public class Dish {
 	}
 	public void setPkId(long pkId) {
 		this.pkId = pkId;
+	}
+	public long getDishCategoryId() {
+		return dishCategoryId;
+	}
+	public void setDishCategoryId(long dishCategoryId) {
+		this.dishCategoryId = dishCategoryId;
 	}
 	public String getDishName() {
 		return dishName;

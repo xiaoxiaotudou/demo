@@ -1,5 +1,7 @@
 package com.wtu.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.wtu.demo.model.Advertisement;
 import com.wtu.demo.service.impl.AdvertisementServiceImpl;
 import com.wtu.demo.util.JsonUtil;
 
@@ -38,11 +41,30 @@ public class AdvertisementController extends BaseController {
 
 	@RequestMapping(value="/get", method=RequestMethod.GET)
     @ResponseBody
-    public String getAdvertisementById(@RequestParam("advertisementId") String advertisementId) {
+    public String getAdvertisementDetailById(@RequestParam("advertisementId") String advertisementId) {
 	    String result = null;
 
-        result = advertisementServiceImpl.getAdvertisementById(advertisementId);
+        result = advertisementServiceImpl.getAdvertisementDetailById(advertisementId);
 
         return JsonUtil.convertObjectToJson(result);
     }
+
+	@RequestMapping(value="/getAll", method=RequestMethod.GET)
+	@ResponseBody
+	public String getAllAdvertisement(@RequestParam("index") String index,
+			@RequestParam("pageSize") String pageSize) {
+		List<Advertisement> advertisements = advertisementServiceImpl.getAllAdvertisement(index, pageSize);
+
+		return JsonUtil.convertObjectToJson(advertisements);
+	}
+
+	@RequestMapping(value="/getAllByCategoryId", method=RequestMethod.GET)
+	@ResponseBody
+	public String getAllAdvertisementByCategoryId(@RequestParam("categoryId") String categoryId,
+			@RequestParam("index") String index,
+			@RequestParam("pageSize") String pageSize) {
+		List<Advertisement> advertisements = advertisementServiceImpl.getAllAdvertisementByCategoryId(categoryId, index, pageSize);
+
+		return JsonUtil.convertObjectToJson(advertisements);
+	}
 }
