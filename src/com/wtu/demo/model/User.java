@@ -1,9 +1,9 @@
 package com.wtu.demo.model;
 
 public class User {
-    private long pkId;
-    private String userName;
-    private String password;
+    private long pkId = -1;
+    private String userName = null;
+    private String password = null;
 
     public long getPkId() {
         return pkId;

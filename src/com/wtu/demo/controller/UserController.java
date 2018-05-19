@@ -11,15 +11,15 @@ import com.wtu.demo.service.impl.UserServiceImpl;
 import com.wtu.demo.util.JsonUtil;
 
 @Controller
-@RequestMapping
+@RequestMapping(value="/user")
 public class UserController {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
 
-    @RequestMapping(value = "/api/user/signin", method = RequestMethod.GET)
+    @RequestMapping(value = "/signin", method = RequestMethod.POST)
 	@ResponseBody
 	public String signin(@RequestParam("email") String email, @RequestParam("password") String password) {
-        return JsonUtil.convertObjectToJson(userServiceImpl.checkSignIn(email, password));
+    	return JsonUtil.convertObjectToJson(userServiceImpl.checkSignIn(email, password));
     }
 }

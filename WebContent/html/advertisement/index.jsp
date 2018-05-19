@@ -1,68 +1,63 @@
+<%@page import="com.wtu.demo.model.Advertisement"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-    <%
-        String basePath = request.getContextPath();
-        String urlPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/demo";
-    %>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>创建广告</title>
-        <script type="text/javascript" src="<%=basePath %>/js/lib/jquery.js"></script>
-        <script type="text/javascript" src="<%=basePath %>/js/lib/jquery.min.js"></script>
-        <script type="text/javascript" src="<%=basePath %>/ueditor/ueditor.config.js"></script>
-        <script type="text/javascript" src="<%=basePath %>/ueditor/ueditor.all.js"></script>
-    </head>
-    <body>
-        <div style="width: 980px; margin: auto">
-            <div>
-	            <span style="font-size: 2em;font-weight: bold;">广告类别：</span>
-	            <span>
-		            <select id="categoryId">
-		                <option value ="1">Volvo</option>
-		                <option value ="2">Saab</option>
-		                <option value="3">Opel</option>
-		                <option value="4">Audi</option>
-		            </select>
-	            </span>
-            </div>
-            <div>
-                <span style="font-size: 2em;font-weight: bold;">广告权重：</span>
-                <input type="text" id="weight"/>
-            </div>
-            <h1>概要信息：</h1>
-            <script id="container1" name="content" type="text/plain"></script>
-            <h1>详细信息：</h1>
-            <script id="container" name="content" type="text/plain"></script>
-            <input type="button" id="submit" value="提交" style="float: right;margin-top: 20px;font-size: 2em;border-radius: 10px;">
-            <div id="Test"></div>
-        </div>
-    </body>
-    <script>
-        $(document).ready(function(){
-        	var descriptionUE = UE.getEditor('container1', {
-                initialFrameWidth: 980
-            });
-        	var detailUE = UE.getEditor('container', {
-                initialFrameWidth: 980
-            });
-            $('#submit').on('click', function() {
-                var categoryId = $('#categoryId option:selected').val();
-                var weight = $('#weight').val();
-                var description = descriptionUE.getAllHtml();
-                var detail = detailUE.getAllHtml();
-
-                $.ajax({
-                    type: "POST",
-                    url: "<%=urlPath %>"+"/advertisement/create",
-                    data: {categoryId : categoryId, weight : weight, description : description, detail : detail},
-                    datatype: "json",
-                    success: function(data){
-                        $('#test').html(eval(data));
-                    }
-                });
-            });
-        });
-    </script>
+<head>
+<%
+	String basePath = request.getContextPath();
+	String urlPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/demo";
+	List<Advertisement> advertisements = (List<Advertisement>)request.getAttribute("advertisements");
+%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>广告列表</title>
+<style type="text/css">
+	#table th,td {   
+        border: 1px solid #000;   
+    } 
+</style>
+</head>
+<body>
+    <jsp:include page="/html/header.jsp" flush="true"/>
+	<jsp:include page="/html/left.jsp" flush="true"/>
+	<div style="width: 70%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;height:500px;border:1px solid;">
+		<table id="table" style="width: 100%;text-align: center;">
+			<tr>
+    			<td style="width: 15%">编号</td>
+    			<td style="width: 30%">标题</td>
+    			<td style="width: 15%">分类</td>
+    			<td style="width: 15%">创建时间</td>
+    			<td style="width: 25%">操作</td>
+  			</tr>
+  			<%-- <c:forEach items="advertisement" var="${request.advertisements}">
+  				<!-- <tr>
+	    			<th>advertisement.getPkId()</th>
+	    			<th>advertisement.getPkId()</th>
+	    			<th>advertisement.getPkId()</th>
+	    			<th>advertisement.getPkId()</th>
+	    			<th>advertisement.getPkId()</th>
+  				</tr> -->
+  			</c:forEach> --%>
+		</table>
+		<div class="pagination">
+			<ul style="">
+			    <li><a href="#">Prev</a></li>
+			    <li><a href="#">1</a></li>
+			    <li><a href="#">2</a></li>
+			    <li><a href="#">3</a></li>
+			    <li><a href="#">4</a></li>
+			    <li><a href="#">5</a></li>
+			    <li><a href="#">Next</a></li>
+			</ul>
+		</div>
+	</div>
+	<jsp:include page="/html/footer.jsp" flush="true"/>
+</body>
+<script>
+    $(document).ready(function(){
+    	$('#adList').parent().addClass("active");
+    });
+</script>
 </html>

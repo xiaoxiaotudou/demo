@@ -3,12 +3,19 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
-	<display-name>demo</display-name>
-	<filter>
+  <display-name>demo</display-name>
+  <welcome-file-list>
+  	<welcome-file>/html/signin.jsp</welcome-file>
+  </welcome-file-list>
+  <filter>
     <display-name>AppContextFilter</display-name>
     <filter-name>AppContextFilter</filter-name>
     <filter-class>com.wtu.demo.filter.AppContextFilter</filter-class>
   </filter>
+  <filter-mapping>
+    <filter-name>AppContextFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   <filter>
     <filter-name>PageEncodingFilter</filter-name>
     <filter-class>com.wtu.demo.filter.PageEncodingFilter</filter-class>
@@ -17,10 +24,6 @@
       <param-value>utf-8</param-value>
     </init-param>
   </filter>
-  <filter-mapping>
-    <filter-name>AppContextFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
   <filter-mapping>
     <filter-name>PageEncodingFilter</filter-name>
     <url-pattern>/*</url-pattern>

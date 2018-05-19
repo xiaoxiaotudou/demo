@@ -2,6 +2,9 @@ package com.wtu.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +24,17 @@ public class AdvertisementController extends BaseController {
 	private AdvertisementServiceImpl advertisementServiceImpl;
 
 	@RequestMapping("/index")
-	public String index(){
-        return "redirect:/html/advertisement/index.jsp";
+	public String index(HttpServletRequest request, HttpServletResponse response){
+		List<Advertisement> advertisements = advertisementServiceImpl.getAllAdvertisement("1", "10");
+
+		request.setAttribute("advertisements", advertisements);
+
+		return "redirect:/html/advertisement/index.jsp";
+	}
+
+	@RequestMapping(value="/create", method=RequestMethod.GET)
+	public String create(){
+        return "redirect:/html/advertisement/create.jsp";
 	}
 
 	@RequestMapping(value="/create", method=RequestMethod.POST)
