@@ -20,7 +20,7 @@ public class DishController extends BaseController {
 	@Autowired
 	private DishServiceImpl dishServiceImpl;
 
-	@RequestMapping(value="/getAll", method=RequestMethod.GET)
+	@RequestMapping(value="/getAllByCategoryId", method=RequestMethod.GET)
 	@ResponseBody
 	public String getAllDishByCategoryId(@RequestParam("categoryId") String categoryId) {
 		List<Dish> dishs = dishServiceImpl.getAllDishByCategoryId(categoryId);

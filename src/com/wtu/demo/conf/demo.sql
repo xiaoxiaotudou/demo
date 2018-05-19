@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50622
 File Encoding         : 65001
 
-Date: 2018-05-17 23:29:17
+Date: 2018-05-19 12:24:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -87,41 +87,52 @@ CREATE TABLE `dish_category` (
   `dishCategoryName` text NOT NULL,
   `deleted` bit(1) NOT NULL DEFAULT b'0',
   UNIQUE KEY `UQ_pkId` (`pkId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of dish_category
 -- ----------------------------
+INSERT INTO `dish_category` VALUES ('1', '分类1', '\0');
+INSERT INTO `dish_category` VALUES ('2', '分类2', '\0');
+INSERT INTO `dish_category` VALUES ('3', '分类3', '\0');
+INSERT INTO `dish_category` VALUES ('4', '分类4', '\0');
+INSERT INTO `dish_category` VALUES ('5', '分类5', '\0');
+INSERT INTO `dish_category` VALUES ('6', '分类6', '\0');
+INSERT INTO `dish_category` VALUES ('7', '分类7', '\0');
+INSERT INTO `dish_category` VALUES ('8', '分类8', '\0');
 
 -- ----------------------------
 -- Table structure for restaurant
 -- ----------------------------
 DROP TABLE IF EXISTS `restaurant`;
 CREATE TABLE `restaurant` (
-  `pkId` int(11) NOT NULL,
+  `pkId` int(11) NOT NULL AUTO_INCREMENT,
   `restaurantName` text NOT NULL,
   `description` text NOT NULL,
   `image` text NOT NULL,
-  `deleted` bit(1) NOT NULL,
+  `deleted` bit(1) NOT NULL DEFAULT b'0',
   KEY `pkId` (`pkId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of restaurant
 -- ----------------------------
+INSERT INTO `restaurant` VALUES ('1', '测试餐厅1', '测试餐厅1', '测试餐厅1', '\0');
+INSERT INTO `restaurant` VALUES ('2', '测试餐厅2', '测试餐厅2', '测试餐厅2', '\0');
+INSERT INTO `restaurant` VALUES ('3', '测试餐厅3', '测试餐厅3', '测试餐厅3', '\0');
+INSERT INTO `restaurant` VALUES ('4', '测试餐厅4', '测试餐厅4', '测试餐厅4', '\0');
+INSERT INTO `restaurant` VALUES ('5', '测试餐厅5', '测试餐厅5', '测试餐厅5', '\0');
 
 -- ----------------------------
 -- Table structure for restaurant_dishcategory
 -- ----------------------------
 DROP TABLE IF EXISTS `restaurant_dishcategory`;
 CREATE TABLE `restaurant_dishcategory` (
-  `pkId` int(11) NOT NULL AUTO_INCREMENT,
+  `pkId` int(11) NOT NULL,
   `restaurantId` int(11) NOT NULL,
   `dishCategoryId` int(11) NOT NULL,
-  UNIQUE KEY `UQ_pkId` (`pkId`),
-  KEY `FK_restaurantId` (`restaurantId`),
-  KEY `FK_dishCategoryId` (`dishCategoryId`),
-  CONSTRAINT `FK_restaurantId` FOREIGN KEY (`restaurantId`) REFERENCES `restaurant` (`pkId`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`pkId`),
+  UNIQUE KEY `UQ_pkId` (`pkId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
