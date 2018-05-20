@@ -146,4 +146,29 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 
         return advertisements;
 	}
+
+    @Override
+    public boolean deleteAdvertisementById(Long id) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        boolean result = false;
+
+        try {
+            connection = DBUtil.getConnection();
+            connection.setAutoCommit(true);
+            preparedStatement = connection.prepareStatement("update advertisement set deleted = 1 where pkId = ?");
+            preparedStatement.setLong(1, id);
+
+            result = preparedStatement.execute();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            DBUtil.close(resultSet, preparedStatement, connection);
+        } finally {
+            DBUtil.close(resultSet, preparedStatement, connection);
+        }
+
+        return result;
+    }
 }

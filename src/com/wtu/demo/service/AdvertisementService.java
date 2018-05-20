@@ -9,4 +9,5 @@ public interface AdvertisementService {
     public String getAdvertisementDetailById(String pkId);
     public List<Advertisement> getAllAdvertisement(String index, String pageSize);
     public List<Advertisement> getAllAdvertisementByCategoryId(String categoryId, String index, String pageSize);
+    public boolean deleteAdvertisementById(String id);
 }

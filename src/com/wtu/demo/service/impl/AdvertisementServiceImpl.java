@@ -36,4 +36,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 			String categoryId, String index, String pageSize) {
 		return advertisementDaoImpl.getAllAdvertisementByCategoryId(Long.valueOf(categoryId), Long.valueOf(index), Long.valueOf(pageSize));
 	}
+
+    @Override
+    public boolean deleteAdvertisementById(String id) {
+        return advertisementDaoImpl.deleteAdvertisementById(Long.valueOf(id));
+    }
 }

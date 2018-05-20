@@ -12,16 +12,11 @@
 <body>
 	<jsp:include page="/html/header.jsp" flush="true"/>
 	<jsp:include page="/html/left.jsp" flush="true"/>
-	<div style="width: 70%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;">
+	<div style="width: 75%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;">
             <div>
 	            <h3 style="display: inline-block;">广告类别：</h3>
 	            <span>
-		            <select id="categoryId">
-		                <option value ="1">Volvo</option>
-		                <option value ="2">Saab</option>
-		                <option value="3">Opel</option>
-		                <option value="4">Audi</option>
-		            </select>
+		            <select id="categoryId"></select>
 	            </span>
             </div>
             <div>
@@ -32,7 +27,7 @@
             <script id="container1" name="content" type="text/plain"></script>
             <h3>详细信息：</h3>
             <script id="container" name="content" type="text/plain"></script>
-            <input type="button" id="submit" value="提交" style="float: right;margin-top: 20px;font-size: 18px;border-radius: 5px;margin-right: 1.5%;">
+            <input type="button" id="submit" value="提交" style="float: right;margin-top: 20px;font-size: 18px;border-radius: 5px;">
         </div>
     </body>
     <script>
@@ -44,21 +39,35 @@
         	var detailUE = UE.getEditor('container', {
                 initialFrameWidth: 980
             });
+        	$.ajax({
+                type: "GET",
+                url: "<%=urlPath %>"+"/advertisementCategory/getAll",
+                success: function(data){
+                	var htmlStr = "";
+                    var result = eval("(" + data + ")");
+                    for (var i = 0; i < result.length; i++) {
+                        htmlStr+= '<option value ="' + result[i].pkId + '">' + result[i].categoryName + '</option>'
+                    }
+                    $('#categoryId').append(htmlStr);
+                }
+            });
             $('#submit').on('click', function() {
                 var categoryId = $('#categoryId option:selected').val();
                 var weight = $('#weight').val();
                 var description = descriptionUE.getAllHtml();
                 var detail = detailUE.getAllHtml();
 
-                $.ajax({
-                    type: "POST",
-                    url: "<%=urlPath %>"+"/advertisement/create",
-                    data: {categoryId : categoryId, weight : weight, description : description, detail : detail},
-                    datatype: "json",
-                    success: function(data){
-                        $('#test').html(eval(data));
-                    }
-                });
+                if (weight != null) {
+	                $.ajax({
+	                    type: "POST",
+	                    url: "<%=urlPath %>"+"/advertisement/create",
+	                    data: {categoryId : categoryId, weight : weight, description : description, detail : detail},
+	                    datatype: "json",
+	                    success: function(data){
+	                        $('#test').html(eval(data));
+	                    }
+	                });
+                }
             });
         });
     </script>
