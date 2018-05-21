@@ -9,20 +9,25 @@
     String urlPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/demo";
     String advertisementId = (String)request.getAttribute("advertisementId");
 %>
+<script type="text/javascript" src="<%=basePath %>/js/lib/jquery.js"></script>
+<script type="text/javascript" src="<%=basePath %>/js/lib/jquery.min.js"></script>
+<script type="text/javascript" src="<%=basePath %>/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="<%=basePath %>/ueditor/ueditor.all.js"></script>
 </head>
-<body>
+<body id="content">
+	<script>
+	    $(document).ready(function(){
+	        $.ajax({
+	            type: "GET",
+	            url: "<%=urlPath %>"+"/advertisement/getAdvertisementById",
+	            data: {advertisementId : <%=advertisementId %>},
+	            datatype: "json",
+	            success: function(data){
+	                var result = eval("(" + data + ")");
+	                $('#content').html(result.detail);
+	            }
+	        });
+	    });
+	</script>
 </body>
-<script>
-    $(document).ready(function(){
-        $.ajax({
-            type: "GET",
-            url: "<%=urlPath %>"+"/advertisement/get",
-            data: {advertisementId : <%=advertisementId %>},
-            datatype: "json",
-            success: function(data){
-                alert(eval("(" + data + ")"));
-            }
-        });
-    });
-</script>
 </html>

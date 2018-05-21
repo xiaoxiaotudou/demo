@@ -21,8 +21,8 @@
   			<li><a href="javascript:void(0)" style="margin-left: 10px;">订单列表</a></li>
   			<li class="nav-header" style="font-size: 18px;">广告管理</li>
   			<li><a href="<%=basePath %>/advertisement/index" style="margin-left: 10px;" id="adList">广告列表</a></li>
-  			<li><a href="<%=basePath %>/advertisement/index" style="margin-left: 10px;" id="adList">广告类别</a></li>
-  			<li><a href="<%=basePath %>/advertisement/create" style="margin-left: 10px;" id="addAd">添加广告</a></li>
+  			<li><a href="<%=basePath %>/advertisementCategory/index" style="margin-left: 10px;" id="adCategoryList">广告类别</a></li>
+  			<li><a href="<%=basePath %>/advertisement/create" style="margin-left: 10px;" id="addAd">添加/编辑</a></li>
   			<li><a href="javascript:void(0)" style="margin-left: 10px;">流量统计</a></li>
   			<li class="nav-header" style="font-size: 18px;">帮助</li>
   			<li><a href="javascript:void(0)" style="margin-left: 10px;">联系方式</a></li>

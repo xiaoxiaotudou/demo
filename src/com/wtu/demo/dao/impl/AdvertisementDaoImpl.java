@@ -45,20 +45,24 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 	}
 
 	@Override
-	public String getAdvertisementDetailById(Long pkId) {
+	public Advertisement getAdvertisementById(Long pkId) {
 		Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String detail = null;
+        Advertisement advertisement = new Advertisement();
 
         try {
             connection = DBUtil.getConnection();
-            preparedStatement = connection.prepareStatement("select detail from advertisement where pkId = ?");
+            preparedStatement = connection.prepareStatement("select * from advertisement where pkId = ?");
             preparedStatement.setLong(1, pkId);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-            	detail = resultSet.getString("detail");
+            	advertisement.setPkId(resultSet.getLong("pkId"));
+            	advertisement.setCategoryId(resultSet.getLong("categoryId"));
+            	advertisement.setDescription(resultSet.getString("description"));
+            	advertisement.setDetail(resultSet.getString("detail"));
+            	advertisement.setWeight(resultSet.getDouble("weight"));
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -68,7 +72,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
             DBUtil.close(resultSet, preparedStatement, connection);
         }
 
-        return detail;
+        return advertisement;
 	}
 
 	@Override
@@ -170,5 +174,31 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         }
 
         return result;
+    }
+
+    @Override
+    public long getAdvertisementCount() {
+    	Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        long count = 0;
+
+        try {
+            connection = DBUtil.getConnection();
+            preparedStatement = connection.prepareStatement("select count(1) from advertisement where deleted = 0");
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+            	count = resultSet.getLong(1);
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            DBUtil.close(resultSet, preparedStatement, connection);
+        } finally {
+            DBUtil.close(resultSet, preparedStatement, connection);
+        }
+
+        return count;
     }
 }

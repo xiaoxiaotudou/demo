@@ -22,8 +22,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 	}
 
     @Override
-    public String getAdvertisementDetailById(String pkId) {
-        return advertisementDaoImpl.getAdvertisementDetailById(Long.valueOf(pkId));
+    public Advertisement getAdvertisementById(String pkId) {
+        return advertisementDaoImpl.getAdvertisementById(Long.valueOf(pkId));
     }
 
 	@Override
@@ -41,4 +41,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public boolean deleteAdvertisementById(String id) {
         return advertisementDaoImpl.deleteAdvertisementById(Long.valueOf(id));
     }
+
+	@Override
+	public long getAdvertisementCount() {
+		return advertisementDaoImpl.getAdvertisementCount();
+	}
 }

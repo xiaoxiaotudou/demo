@@ -1,6 +1,8 @@
 package com.wtu.demo.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +36,22 @@ public class AdvertisementController extends BaseController {
 	}
 
 	@RequestMapping(value="/create", method=RequestMethod.GET)
-	public String create(){
-        return "redirect:/html/advertisement/create.jsp";
+	public ModelAndView createPage(){
+        ModelAndView modelAndView = new ModelAndView();
+
+		modelAndView.setViewName("/html/advertisement/create.jsp");
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value="/edit", method=RequestMethod.GET)
+	public ModelAndView editPage(@RequestParam("advertisementId") String advertisementId){
+        ModelAndView modelAndView = new ModelAndView();
+
+		modelAndView.setViewName("/html/advertisement/create.jsp");
+		modelAndView.addObject("advertisementId", advertisementId);
+
+		return modelAndView;
 	}
 
 	@RequestMapping(value="/create", method=RequestMethod.POST)
@@ -55,7 +71,6 @@ public class AdvertisementController extends BaseController {
 	@RequestMapping(value="/getAdvertisementDetailPage", method=RequestMethod.GET)
     public ModelAndView getAdvertisementDetailPage(@RequestParam("advertisementId") String advertisementId) {
 	    ModelAndView modelAndView = new ModelAndView();
-	    String result = advertisementServiceImpl.getAdvertisementDetailById(advertisementId);
 
 	    modelAndView.setViewName("/html/advertisement/templet.jsp");
 	    modelAndView.addObject("advertisementId", advertisementId);
@@ -63,21 +78,28 @@ public class AdvertisementController extends BaseController {
         return modelAndView;
     }
 
-	@RequestMapping(value="/get", method=RequestMethod.GET)
+	@RequestMapping(value="/getAdvertisementById", method=RequestMethod.GET)
 	@ResponseBody
-    public String getAdvertisementDetailById(@RequestParam("advertisementId") String advertisementId) {
-        String result = advertisementServiceImpl.getAdvertisementDetailById(advertisementId);
+    public String getAdvertisementById(@RequestParam("advertisementId") String advertisementId) {
+        Advertisement advertisement = advertisementServiceImpl.getAdvertisementById(advertisementId);
 
-        return JsonUtil.convertObjectToJson(result);
+        return JsonUtil.convertObjectToJson(advertisement);
     }
 
 	@RequestMapping(value="/getAll", method=RequestMethod.GET)
 	@ResponseBody
 	public String getAllAdvertisement(@RequestParam("index") String index,
 			@RequestParam("pageSize") String pageSize) {
+		Map<String, Object> result = new HashMap<String, Object>();
 		List<Advertisement> advertisements = advertisementServiceImpl.getAllAdvertisement(index, pageSize);
+		Long count = advertisementServiceImpl.getAdvertisementCount();
+		Long pageCount = count/Long.valueOf(pageSize) + 1;
 
-		return JsonUtil.convertObjectToJson(advertisements);
+		result.put("advertisements", advertisements);
+		result.put("index", index);
+		result.put("pageCount", pageCount);
+
+		return JsonUtil.convertObjectToJson(result);
 	}
 
 	@RequestMapping(value="/getAllByCategoryId", method=RequestMethod.GET)

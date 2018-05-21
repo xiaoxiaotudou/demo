@@ -32,8 +32,6 @@
                 type: "GET",
                 url: "<%=urlPath %>"+"/advertisement/index",
                 success: function(data){
-                     alert(data);
-                     alert("<%=urlPath %>");
                      $('#right-content').html(data);
                 }
             });

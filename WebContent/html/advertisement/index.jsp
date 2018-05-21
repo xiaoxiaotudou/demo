@@ -26,7 +26,7 @@
 	<jsp:include page="/html/left.jsp" flush="true"/>
 	<div style="width: 70%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;height:500px;margin-top: 30px;">
 		<table id="table" style="width: 100%;text-align: center;">
-			<tr>
+			<tr class="head">
     			<td style="width: 15%">编号</td>
     			<td style="width: 30%">标题</td>
     			<td style="width: 15%">分类</td>
@@ -34,10 +34,10 @@
     			<td style="width: 25%">操作</td>
   			</tr>
 		</table>
-		<div>
+		<div class="pageCode">
 			<ul class="pager">
-			    <li><a href="javascript:void(0)">前一页</a></li>
-			    <li><a href="javascript:void(0)">后一页</a></li>
+			    <li id="prev"><a href="javascript:void(0)">前一页</a></li>
+			    <li id="next"><a href="javascript:void(0)">后一页</a></li>
 			</ul>
 		</div>
 	</div>
@@ -46,25 +46,75 @@
 <script>
     $(document).ready(function(){
     	$('#adList').parent().addClass("active");
+    	var currentPageIndex = 1;
+    	getAdvertisements(1);
 
-    	$.ajax({
-            type: "GET",
-            url: "<%=urlPath %>"+"/advertisement/getAll",
-            data: {index : 1, pageSize : 10},
-            datatype: "json",
-            success: function(data){
-            	var htmlStr = "";
-                var result = eval("(" + data + ")");
-                for (var i = 0; i < result.length; i++) {
-                	htmlStr+= '<tr><th>' + result[i].pkId 
-                	+ '</th><th>' + result[i].pkId + '</th><th>' 
-                	+ result[i].pkId + '</th><th>' + result[i].pkId
-                	+ '</th><th><a>编辑</a><a>预览</a><a>删除</a></th></tr>'
-                }
-                $('#table').append(htmlStr);
-                /* $('.pagination').css('display', 'none'); */
-            }
-        });
+    	function getAdvertisements(index) {
+    		$(".data").remove();
+    		$.ajax({
+	            type: "GET",
+	            url: "<%=urlPath %>"+"/advertisement/getAll",
+	            data: {index : index, pageSize : 10},
+	            datatype: "json",
+	            success: function(data){
+	            	var htmlStr = "";
+	            	var temp = eval("(" + data + ")");
+	                var result = temp.advertisements;
+	                currentPageIndex = temp.index;
+	                for (var i = 0; i < result.length; i++) {
+	                	htmlStr+= '<tr class="data"><th>' + result[i].pkId 
+	                	+ '</th><th>' + result[i].pkId + '</th><th>' 
+	                	+ result[i].pkId + '</th><th>' + result[i].pkId
+	                	+ '</th><th><a href="<%=urlPath %>/advertisement/edit?advertisementId=' + result[i].pkId + '">编辑</a><a target="blank" href="<%=urlPath %>/advertisement/getAdvertisementDetailPage?advertisementId=' + result[i].pkId + '">预览</a><a class="delete" data-id="'+ result[i].pkId +'">删除</a></th></tr>'
+	                }
+	                $('#table').append(htmlStr);
+	                
+	                if (temp.pageCount == 1) {
+	                	$('.pageCode').css('display', 'none');
+	                } else {
+	                	if (currentPageIndex == 1) {
+	                		$('#prev').addClass("disabled");
+	                		$('#next').removeClass("disabled");
+	                	} else if (currentPageIndex == temp.pageCount) {
+	                		$('#next').addClass("disabled");
+	                		$('#prev').removeClass("disabled");
+	                	}
+	                }
+	                
+	                bindDeleteEvent();
+	            }
+	        });
+    	}
+    	
+    	function bindDeleteEvent() {
+    		$('.delete').on('click', function() {
+    			var id = $(this).data('id');
+    			
+    			$.ajax({
+    	            type: "GET",
+    	            url: "<%=urlPath %>"+"/advertisement/delete",
+    	            data: {id : id},
+    	            datatype: "json",
+    	            success: function(data){
+    	            	var result = eval("(" + data + ")");
+    	            	
+    	            	if (result) {
+    	            		alert("删除成功！");
+    	            	} else {
+    	            		alert("删除失败，请稍后再试！");
+    	            	}
+    	            }
+    	        });
+    		});
+    	}
+    	
+    	$('#prev').on('click', function() {
+    		getAdvertisements(Number(currentPageIndex) - Number(1));
+		});
+    	
+    	$('#next').on('click', function() {
+    		getAdvertisements(Number(currentPageIndex) + Number(1));
+		});
     });
 </script>
 </html>
