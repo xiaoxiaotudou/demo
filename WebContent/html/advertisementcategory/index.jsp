@@ -173,11 +173,11 @@
     	});
 		
 		$('#prev').on('click', function() {
-    		getAdvertisements(Number(currentPageIndex) - Number(1));
+			getAdvertisementCategory(Number(currentPageIndex) - Number(1));
 		});
     	
     	$('#next').on('click', function() {
-    		getAdvertisements(Number(currentPageIndex) + Number(1));
+    		getAdvertisementCategory(Number(currentPageIndex) + Number(1));
 		});
     });
 </script>
