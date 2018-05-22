@@ -12,11 +12,10 @@
   			<li><a href="javascript:void(0)" style="margin-left: 10px;">用户列表</a></li>
   			<li><a href="javascript:void(0)" style="margin-left: 10px;">添加用户</a></li>
   			<li class="nav-header" style="font-size: 18px;">餐厅管理</li>
-  			<li><a href="javascript:void(0)" style="margin-left: 10px;">餐厅列表</a></li>
-  			<li><a href="javascript:void(0)" style="margin-left: 10px;">添加餐厅</a></li>
+  			<li><a href="<%=basePath %>/restaurant/index" style="margin-left: 10px;" id="restaurantList">餐厅列表</a></li>
   			<li class="nav-header" style="font-size: 18px;">菜品管理</li>
   			<li><a href="javascript:void(0)" style="margin-left: 10px;">菜品列表</a></li>
-  			<li><a href="javascript:void(0)" style="margin-left: 10px;">添加菜品</a></li>
+  			<li><a href="<%=basePath %>/dishCategory/index" style="margin-left: 10px;" id="dishCategoryList">菜品类别</a></li>
   			<li class="nav-header" style="font-size: 18px;">订单管理</li>
   			<li><a href="javascript:void(0)" style="margin-left: 10px;">订单列表</a></li>
   			<li class="nav-header" style="font-size: 18px;">广告管理</li>

@@ -60,7 +60,7 @@ public class AdvertisementCategoryDaoImpl implements AdvertisementCategoryDao {
             preparedStatement = connection.prepareStatement("insert into advertisement_category(categoryName) values(?)");
             preparedStatement.setString(1, categoryName);
 
-            result = preparedStatement.execute();
+            result = !preparedStatement.execute();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -69,7 +69,7 @@ public class AdvertisementCategoryDaoImpl implements AdvertisementCategoryDao {
             DBUtil.close(resultSet, preparedStatement, connection);
         }
 
-        return !result;
+        return result;
 	}
 
 	@Override

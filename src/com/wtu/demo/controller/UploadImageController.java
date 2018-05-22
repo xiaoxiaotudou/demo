@@ -10,17 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-@Controller  
-@RequestMapping(value="/resource/upload")  
+@Controller
+@RequestMapping(value="/upload")
 public class UploadImageController extends BaseController {
-	
-	@ResponseBody  
-    @RequestMapping(value="/images",method = RequestMethod.POST)  
-    public String uploadImage(@RequestParam(value = "file", required = false) MultipartFile file,
-    							HttpServletRequest request,
-								HttpServletResponse response){
-        System.out.println("Upload");
-        
-        return "123";
+
+	@ResponseBody
+    @RequestMapping(value="/image",method = RequestMethod.POST)
+    public String uploadImage(@RequestParam(value = "image", required = false) MultipartFile image, HttpServletRequest request, HttpServletResponse response){
+
+		return null;
 	}
 }

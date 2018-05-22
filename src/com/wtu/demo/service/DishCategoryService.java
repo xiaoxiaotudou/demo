@@ -6,4 +6,8 @@ import com.wtu.demo.model.DishCategory;
 
 public interface DishCategoryService {
 	public List<DishCategory> getAllDishCategoryByRestaurantId(String restaurantId);
+	public List<DishCategory> getAllDishCategoryByPagination(String index, String pageSize, String restaurantId);
+	public long getDishCategoryCount();
+	public DishCategory getDishCategoryById(String id);
+	public boolean deleteDishCategoryById(String id);
 }

@@ -19,4 +19,25 @@ public class DishCategoryServiceImpl implements DishCategoryService {
 	public List<DishCategory> getAllDishCategoryByRestaurantId(String restaurantId) {
 		return dishCategoryDaoImpl.getAllDishCategoryByRestaurantId(Long.valueOf(restaurantId));
 	}
+
+	@Override
+	public List<DishCategory> getAllDishCategoryByPagination(String index,
+			String pageSize, String restaurantId) {
+		return dishCategoryDaoImpl.getAllDishCategoryByPagination(Long.valueOf(index), Long.valueOf(pageSize), Long.valueOf(restaurantId));
+	}
+
+	@Override
+	public long getDishCategoryCount() {
+		return dishCategoryDaoImpl.getDishCategoryCount();
+	}
+
+	@Override
+	public DishCategory getDishCategoryById(String id) {
+		return dishCategoryDaoImpl.getDishCategoryById(Long.valueOf(id));
+	}
+
+	@Override
+	public boolean deleteDishCategoryById(String id) {
+		return dishCategoryDaoImpl.deleteDishCategoryById(Long.valueOf(id));
+	}
 }

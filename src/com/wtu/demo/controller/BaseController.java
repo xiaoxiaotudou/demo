@@ -15,6 +15,7 @@ public class BaseController {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(Exception e) {
+    	e.printStackTrace();
         ModelAndView modelAndView = new ModelAndView(this.getRedirectView(Constants.INNER_ERROR_PAGE));
 
         return modelAndView;
