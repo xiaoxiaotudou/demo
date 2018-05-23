@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50622
 File Encoding         : 65001
 
-Date: 2018-05-22 23:06:46
+Date: 2018-05-23 21:43:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -84,7 +84,7 @@ CREATE TABLE `dish` (
   `dishPrice` decimal(10,0) NOT NULL,
   `image` text NOT NULL,
   `createdTime` datetime DEFAULT CURRENT_TIMESTAMP,
-  `deleted` bit(1) NOT NULL,
+  `deleted` bit(1) NOT NULL DEFAULT b'0',
   UNIQUE KEY `UQ_pkId` (`pkId`),
   KEY `FK_dishCategoryId` (`dishCategoryId`),
   CONSTRAINT `FK_dishCategoryId` FOREIGN KEY (`dishCategoryId`) REFERENCES `dish_category` (`pkId`) ON DELETE CASCADE ON UPDATE CASCADE
