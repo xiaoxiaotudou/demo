@@ -6,7 +6,8 @@ public class Dish {
 	private String dishName;
 	private double dishPrice;
 	private String image;
-	
+	private String createdTime;
+
 	public long getPkId() {
 		return pkId;
 	}
@@ -37,6 +38,10 @@ public class Dish {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
-	
+	public String getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
+	}
 }

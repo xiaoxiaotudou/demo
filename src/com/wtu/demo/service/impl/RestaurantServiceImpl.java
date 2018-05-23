@@ -41,14 +41,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public boolean createRestaurant(String restaurantame,
-			String restaurantAddress, String restaurantImage) {
-		return restaurantDaoImpl.createRestaurant(restaurantame, restaurantAddress, restaurantImage);
+	public boolean createRestaurant(String name, String address, String description, String image) {
+		return restaurantDaoImpl.createRestaurant(name, address, description, image);
 	}
 
 	@Override
-	public boolean editRestaurantById(String id, String restaurantame,
-			String restaurantAddress, String restaurantImage) {
-		return restaurantDaoImpl.editRestaurantById(Long.valueOf(id), restaurantame, restaurantAddress, restaurantImage);
+	public boolean editRestaurantById(String id, String name, String address, String description, String image) {
+		return restaurantDaoImpl.editRestaurantById(Long.valueOf(id), name, address, description, image);
 	}
 }

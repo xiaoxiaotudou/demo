@@ -2,7 +2,8 @@ package com.wtu.demo.model;
 
 public class DishCategory {
 	private long pkId;
-	private String dishCategoryName;
+	private String name;
+	private String createdTime;
 
 	public long getPkId() {
 		return pkId;
@@ -10,10 +11,16 @@ public class DishCategory {
 	public void setPkId(long pkId) {
 		this.pkId = pkId;
 	}
-	public String getDishCategoryName() {
-		return dishCategoryName;
+	public String getName() {
+		return name;
 	}
-	public void setDishCategoryName(String dishCategoryName) {
-		this.dishCategoryName = dishCategoryName;
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
 	}
 }

@@ -56,10 +56,11 @@ public class RestaurantController extends BaseController {
 
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	@ResponseBody
-	public String createRestaurant(@RequestParam("restaurantName") String restaurantName,
-	        @RequestParam("restaurantAddress") String restaurantAddress,
-	        @RequestParam("restaurantImage") String restaurantImage) {
-		boolean result = restaurantServiceImpl.createRestaurant(restaurantName, restaurantAddress, restaurantImage);
+	public String createRestaurant(@RequestParam("name") String name,
+	        @RequestParam("address") String address,
+	        @RequestParam("description") String description,
+	        @RequestParam("image") String image) {
+		boolean result = restaurantServiceImpl.createRestaurant(name, address, description, image);
 
 		return JsonUtil.convertObjectToJson(result);
 	}
@@ -67,10 +68,11 @@ public class RestaurantController extends BaseController {
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	@ResponseBody
 	public String editRestaurant(@RequestParam("id") String id,
-			@RequestParam("restaurantName") String restaurantName,
-	        @RequestParam("restaurantAddress") String restaurantAddress,
-	        @RequestParam("restaurantImage") String restaurantImage) {
-		boolean result = restaurantServiceImpl.editRestaurantById(id, restaurantName, restaurantAddress, restaurantImage);
+			@RequestParam("name") String name,
+	        @RequestParam("address") String address,
+	        @RequestParam("description") String description,
+	        @RequestParam("image") String image) {
+		boolean result = restaurantServiceImpl.editRestaurantById(id, name, address, description, image);
 
 		return JsonUtil.convertObjectToJson(result);
 	}

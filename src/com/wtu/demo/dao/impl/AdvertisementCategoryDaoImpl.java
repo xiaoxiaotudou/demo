@@ -3,6 +3,7 @@ package com.wtu.demo.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class AdvertisementCategoryDaoImpl implements AdvertisementCategoryDao {
 
                 advertisementCategory.setPkId(resultSet.getLong("pkId"));
                 advertisementCategory.setCategoryName(resultSet.getString("categoryName"));
+                advertisementCategory.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
 
                 advertisementCategories.add(advertisementCategory);
             }
@@ -116,6 +118,7 @@ public class AdvertisementCategoryDaoImpl implements AdvertisementCategoryDao {
             if (resultSet.next()) {
                 advertisementCategory.setPkId(resultSet.getLong("pkId"));
                 advertisementCategory.setCategoryName(resultSet.getString("categoryName"));
+                advertisementCategory.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -139,7 +142,7 @@ public class AdvertisementCategoryDaoImpl implements AdvertisementCategoryDao {
             connection = DBUtil.getConnection();
             preparedStatement = connection.prepareStatement("select * from advertisement_category where deleted = 0 limit ?, ?");
 
-            preparedStatement.setLong(1, index);
+            preparedStatement.setLong(1, (index - 1) * pageSize);
             preparedStatement.setLong(2, pageSize);
 
             resultSet = preparedStatement.executeQuery();
@@ -149,6 +152,7 @@ public class AdvertisementCategoryDaoImpl implements AdvertisementCategoryDao {
 
                 advertisementCategory.setPkId(resultSet.getLong("pkId"));
                 advertisementCategory.setCategoryName(resultSet.getString("categoryName"));
+                advertisementCategory.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
 
                 advertisementCategories.add(advertisementCategory);
             }
@@ -176,7 +180,7 @@ public class AdvertisementCategoryDaoImpl implements AdvertisementCategoryDao {
             preparedStatement = connection.prepareStatement("update advertisement_category set deleted = 1 where pkId = ?");
             preparedStatement.setLong(1, id);
 
-            result = preparedStatement.execute();
+            result = !preparedStatement.execute();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -27,9 +27,9 @@
 		<table id="table" style="width: 100%;text-align: center;">
 			<tr>
     			<td style="width: 15%">编号</td>
-    			<td style="width: 25%">名称</td>
+    			<td style="width: 20%">名称</td>
     			<td style="width: 30%">地址</td>
-    			<td style="width: 15%">创建时间</td>
+    			<td style="width: 20%">创建时间</td>
     			<td style="width: 15%">操作</td>
   			</tr>
 		</table>
@@ -43,6 +43,7 @@
 			<input type="hidden" id="restaurantId" />
 			<div><h3 style="display: inline-block;">餐厅名称：</h3><input type="text" id="restaurantName" /></div>
 			<div><h3 style="display: inline-block;">餐厅地址：</h3><input type="text" id="restaurantAddress" /></div>
+			<div><h3 style="display: inline-block;">餐厅描述：</h3><input type="text" id="restaurantDescription" /></div>
 			<div><h3 style="display: inline-block;">图片路径：</h3><input type="text" id="restaurantImage" /></div>
 			<input type="button" value="编辑" id="restaurantEdit" style="margin-left: 24%;padding: 5px 10px; border-radius: 5px" />
 			<input type="button" value="新增" id="restaurantAdd" style="padding: 5px 10px; border-radius: 5px" />
@@ -70,9 +71,9 @@
 	                currentPageIndex = temp.index;
 	                for (var i = 0; i < result.length; i++) {
 	                	htmlStr+= '<tr class="data"><th>' + result[i].pkId
-	                	+ '</th><th>' + result[i].pkId
-	                	+ '</th><th>' + result[i].pkId 
-	                	+ '</th><th>' + result[i].pkId
+	                	+ '</th><th>' + result[i].name
+	                	+ '</th><th>' + result[i].address 
+	                	+ '</th><th>' + result[i].createdTime
 	                	+ '</th><th><a class="edit" data-id="'+ result[i].pkId +'">编辑</a><a class="delete" data-id="'+ result[i].pkId +'">删除</a></th></tr>'
 	                }
 	                $('#table').append(htmlStr);
@@ -83,9 +84,13 @@
 	                	if (currentPageIndex == 1) {
 	                		$('#prev').addClass("disabled");
 	                		$('#next').removeClass("disabled");
+	                		$('#prev').unbind('click');
+	                		bindNextEvent();
 	                	} else if (currentPageIndex == temp.pageCount) {
 	                		$('#next').addClass("disabled");
 	                		$('#prev').removeClass("disabled");
+	                		$('#next').unbind('click');
+	                		bindPrevEvent();
 	                	}
 	                }
 	                
@@ -107,9 +112,10 @@
     	            success: function(data){
     	            	var result = eval("(" + data + ")");
     	            	$('#restaurantId').val(result.pkId);
-    	            	$('#restaurantName').val(result.restaurantName);
-    	            	$('#restaurantAddress').val(result.restaurantAddress);
-    	            	$('#restaurantImage').val(result.restaurantImage);
+    	            	$('#restaurantName').val(result.name);
+    	            	$('#restaurantAddress').val(result.address);
+    	            	$('#restaurantDescription').val(result.description);
+    	            	$('#restaurantImage').val(result.image);
     	            }
     	        });
     		});
@@ -141,7 +147,7 @@
     		$.ajax({
 	            type: "POST",
 	            url: "<%=urlPath %>"+"/restaurant/edit",
-	            data: {id : $('#restaurantId').val(), restaurantame : $('#restaurantName').val(), restaurantAddress : $('#restaurantAddress').val(), restaurantImage : $('restaurantImage')},
+	            data: {id : $('#restaurantId').val(), name : $('#restaurantName').val(), address : $('#restaurantAddress').val(), description : $('#restaurantDescription').val(), image : $('restaurantImage')},
 	            datatype: "json",
 	            success: function(data){
 	            	var result = eval("(" + data + ")");
@@ -159,7 +165,7 @@
 			$.ajax({
 	            type: "POST",
 	            url: "<%=urlPath %>"+"/restaurant/create",
-	            data: {restaurantame : $('#restaurantame').val(), restaurantAddress : $('#restaurantAddress').val(), restaurantImage : $('restaurantImage')},
+	            data: {name : $('#restaurantName').val(), address : $('#restaurantAddress').val(), description : $('#restaurantDescription').val(), image : $('restaurantImage')},
 	            datatype: "json",
 	            success: function(data){
 	            	var result = eval("(" + data + ")");
@@ -172,14 +178,16 @@
 	            }
 	        });
 		});
-		
-		$('#prev').on('click', function() {
-			getRestaurant(Number(currentPageIndex) - Number(1));
-		});
-    	
-    	$('#next').on('click', function() {
-    		getRestaurant(Number(currentPageIndex) + Number(1));
-		});
+		function bindPrevEvent() {
+			$('#prev').on('click', function() {
+				getRestaurant(Number(currentPageIndex) - Number(1));
+			});
+		}
+		function bindNextEvent() {
+	    	$('#next').on('click', function() {
+	    		getRestaurant(Number(currentPageIndex) + Number(1));
+			});
+		}
     });
 </script>
 </html>

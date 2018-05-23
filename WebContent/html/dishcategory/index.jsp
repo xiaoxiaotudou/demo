@@ -45,9 +45,9 @@
 			</ul>
 		</div>
 		<div style="width: 100%; height: 300px;margin-top: 50px;">
-			<h3 style="display: inline-block;">类别名称：</h3><input type="text" id="adCategoryName" />
+			<h3 style="display: inline-block;">类别名称：</h3><input type="text" id="dishCategoryName" />
 			<div>
-				<input type="hidden" id="adCategoryId"/>
+				<input type="hidden" id="dishCategoryId"/>
 				<input type="button" value="修改" id="dishCategoryEdit" style="margin-left: 24%;padding: 5px 10px; border-radius: 5px" />
 				<input type="button" value="新增" id="dishCategoryAdd" style="padding: 5px 10px; border-radius: 5px" />
 			</div>
@@ -67,13 +67,13 @@
             	var htmlStr = "";
                 var result = eval("(" + data + ")");
                 for (var i = 0; i < result.length; i++) {
-                    htmlStr+= '<option value ="' + result[i].pkId + '">' + result[i].restaurantName + '</option>'
+                    htmlStr+= '<option value ="' + result[i].pkId + '">' + result[i].name + '</option>'
                 }
                 $('#restaurantId').append(htmlStr);
+                
+                getDishCategory(1, $('#restaurantId option:selected').val());
             }
         });
-
-    	getDishCategory(1, $('#restaurantId option:selected').val());
 
     	function getDishCategory(index, restaurantId) {
 	    	$(".data").remove();
@@ -89,8 +89,8 @@
 	                currentPageIndex = temp.index;
 	                for (var i = 0; i < result.length; i++) {
 	                	htmlStr+= '<tr class="data"><th>' + result[i].pkId
-	                	+ '</th><th>' + result[i].pkId
-	                	+ '</th><th>' + result[i].pkId
+	                	+ '</th><th>' + result[i].name
+	                	+ '</th><th>' + result[i].createdTime
 	                	+ '</th><th><a class="edit" data-id="'+ result[i].pkId +'">编辑</a><a class="delete" data-id="'+ result[i].pkId +'">删除</a></th></tr>'
 	                }
 	                $('#table').append(htmlStr);
@@ -101,12 +101,16 @@
 	                	if (currentPageIndex == 1) {
 	                		$('#prev').addClass("disabled");
 	                		$('#next').removeClass("disabled");
+	                		$('#prev').unbind('click');
+	                		bindNextEvent();
 	                	} else if (currentPageIndex == temp.pageCount) {
 	                		$('#next').addClass("disabled");
 	                		$('#prev').removeClass("disabled");
+	                		$('#next').unbind('click');
+	                		bindPrevEvent();
 	                	}
 	                }
-	                
+
 	                bindEditEvent();
 	                bindDeleteEvent();
 	            }
@@ -124,11 +128,10 @@
     	            datatype: "json",
     	            success: function(data){
     	            	var result = eval("(" + data + ")");
-    	            	$('#adCategoryId').val(result.pkId);
-    	            	$('#adCategoryName').val(result.categoryName);
+    	            	$('#dishCategoryId').val(result.pkId);
+    	            	$('#dishCategoryName').val(result.name);
     	            }
     	        });
-    			
     		});
     	}
     	
@@ -154,17 +157,22 @@
     		});
     	}
 
+    	$('#restaurantId').on('change', function() {
+    		getDishCategory(1, $('#restaurantId option:selected').val());
+    	});
+
     	$('#dishCategoryEdit').on('click', function() {
     		$.ajax({
 	            type: "POST",
-	            url: "<%=urlPath %>"+"/advertisementCategory/edit",
-	            data: {id : $('#adCategoryId').val(), categoryName : $('#adCategoryName').val()},
+	            url: "<%=urlPath %>"+"/dishCategory/edit",
+	            data: {dishCategoryId : $('#dishCategoryId').val(), dishCategoryName : $('#dishCategoryName').val()},
 	            datatype: "json",
 	            success: function(data){
 	            	var result = eval("(" + data + ")");
 	            	
 	            	if (result) {
-	            		$('#adCategoryName').val("");
+	            		$('#dishCategoryId').val("");
+	            		$('#dishCategoryName').val("");
 	            		alert("编辑成功！");
 	            	} else {
 	            		alert("编辑失败，请稍后再试！");
@@ -176,14 +184,15 @@
 		$('#dishCategoryAdd').on('click', function() {
 			$.ajax({
 	            type: "POST",
-	            url: "<%=urlPath %>"+"/advertisementCategory/create",
-	            data: {categoryName : $('#adCategoryName').val()},
+	            url: "<%=urlPath %>"+"/dishCategory/create",
+	            data: {restaurantId : $('#restaurantId option:selected').val(), dishCategoryName : $('#dishCategoryName').val()},
 	            datatype: "json",
 	            success: function(data){
 	            	var result = eval("(" + data + ")");
 	            	
 	            	if (result) {
-	            		$('#adCategoryName').val("");
+	            		$('#dishCategoryId').val("");
+	            		$('#dishCategoryName').val("");
 	            		alert("添加成功！");
 	            	} else {
 	            		alert("添加失败，请稍后再试！");
@@ -191,14 +200,18 @@
 	            }
 	        });
     	});
-		
-		$('#prev').on('click', function() {
-			getAdvertisementCategory(Number(currentPageIndex) - Number(1));
-		});
-    	
-    	$('#next').on('click', function() {
-    		getAdvertisementCategory(Number(currentPageIndex) + Number(1));
-		});
+
+		function bindPrevEvent() {
+			$('#prev').on('click', function() {
+				getDishCategory(Number(currentPageIndex) - Number(1), $('#restaurantId option:selected').val());
+			});
+		}
+
+		function bindNextEvent() {
+	    	$('#next').on('click', function() {
+	    		getDishCategory(Number(currentPageIndex) + Number(1), $('#restaurantId option:selected').val());
+			});
+		}
     });
 </script>
 </html>

@@ -2,9 +2,11 @@ package com.wtu.demo.model;
 
 public class Restaurant {
 	private long pkId;
-	private String restaurantName;
+	private String name;
+	private String address;
 	private String description;
 	private String image;
+	private String createdTime;
 
 	public long getPkId() {
 		return pkId;
@@ -12,11 +14,17 @@ public class Restaurant {
 	public void setPkId(long pkId) {
 		this.pkId = pkId;
 	}
-	public String getRestaurantName() {
-		return restaurantName;
+	public String getName() {
+		return name;
 	}
-	public void setRestaurantName(String restaurantName) {
-		this.restaurantName = restaurantName;
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getDescription() {
 		return description;
@@ -29,5 +37,11 @@ public class Restaurant {
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	public String getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
 	}
 }

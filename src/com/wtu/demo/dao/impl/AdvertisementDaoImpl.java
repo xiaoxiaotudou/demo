@@ -3,6 +3,7 @@ package com.wtu.demo.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
             preparedStatement.setString(3, description);
             preparedStatement.setString(4, detail);
 
-            result = preparedStatement.execute();
+            result = !preparedStatement.execute();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -41,7 +42,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
             DBUtil.close(resultSet, preparedStatement, connection);
         }
 
-        return !result;
+        return result;
 	}
 
 	@Override
@@ -84,8 +85,15 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 
         try {
             connection = DBUtil.getConnection();
-            preparedStatement = connection.prepareStatement("select * from advertisement limit ?,?");
-            preparedStatement.setLong(1, index);
+            preparedStatement = connection.prepareStatement("select advertisement.pkId, "
+            		+ "advertisement.categoryId, "
+            		+ "advertisement_category.categoryName, "
+            		+ "advertisement.description, "
+            		+ "advertisement.detail, "
+            		+ "advertisement.weight, "
+            		+ "advertisement.createdTime "
+            		+ "from advertisement inner join advertisement_category on advertisement.categoryId = advertisement_category.pkId limit ?,?");
+            preparedStatement.setLong(1, (index - 1) * pageSize);
             preparedStatement.setLong(2, pageSize);
 
             resultSet = preparedStatement.executeQuery();
@@ -95,9 +103,11 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 
 				advertisement.setPkId(resultSet.getLong("pkId"));
 				advertisement.setCategoryId(resultSet.getLong("categoryId"));
+				advertisement.setCategoryName(resultSet.getString("categoryName"));
 				advertisement.setDescription(resultSet.getString("description"));
 				advertisement.setDetail(resultSet.getString("detail"));
 				advertisement.setWeight(resultSet.getDouble("weight"));
+				advertisement.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
 
 				advertisements.add(advertisement);
 			}
@@ -113,8 +123,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 	}
 
 	@Override
-	public List<Advertisement> getAllAdvertisementByCategoryId(Long categoryId,
-			Long index, Long pageSize) {
+	public List<Advertisement> getAllAdvertisementByCategoryId(Long categoryId, Long index, Long pageSize) {
 		Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -122,9 +131,16 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 
         try {
             connection = DBUtil.getConnection();
-            preparedStatement = connection.prepareStatement("select * from advertisement where categoryId = ? limit ?,?");
+            preparedStatement = connection.prepareStatement("select advertisement.pkId, "
+            		+ "advertisement.categoryId, "
+            		+ "advertisement_category.categoryName, "
+            		+ "advertisement.description, "
+            		+ "advertisement.detail, "
+            		+ "advertisement.weight, "
+            		+ "advertisement.createdTime "
+            		+ "from advertisement inner join advertisement_category on advertisement.categoryId = advertisement_category.pkId where advertisement.categoryId = ? limit ?,?");
             preparedStatement.setLong(1, categoryId);
-            preparedStatement.setLong(2, index);
+            preparedStatement.setLong(2, (index - 1) * pageSize);
             preparedStatement.setLong(3, pageSize);
 
             resultSet = preparedStatement.executeQuery();
@@ -134,9 +150,11 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 
 				advertisement.setPkId(resultSet.getLong("pkId"));
 				advertisement.setCategoryId(resultSet.getLong("categoryId"));
+				advertisement.setCategoryName(resultSet.getString("categoryName"));
 				advertisement.setDescription(resultSet.getString("description"));
 				advertisement.setDetail(resultSet.getString("detail"));
 				advertisement.setWeight(resultSet.getDouble("weight"));
+				advertisement.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
 
 				advertisements.add(advertisement);
 			}
@@ -164,7 +182,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
             preparedStatement = connection.prepareStatement("update advertisement set deleted = 1 where pkId = ?");
             preparedStatement.setLong(1, id);
 
-            result = preparedStatement.execute();
+            result = !preparedStatement.execute();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

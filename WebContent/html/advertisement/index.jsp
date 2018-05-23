@@ -26,12 +26,12 @@
 	<jsp:include page="/html/left.jsp" flush="true"/>
 	<div style="width: 70%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;height:500px;margin-top: 30px;">
 		<table id="table" style="width: 100%;text-align: center;">
-			<tr class="head">
+			<tr>
     			<td style="width: 15%">编号</td>
     			<td style="width: 30%">标题</td>
     			<td style="width: 15%">分类</td>
-    			<td style="width: 15%">创建时间</td>
-    			<td style="width: 25%">操作</td>
+    			<td style="width: 20%">创建时间</td>
+    			<td style="width: 20%">操作</td>
   			</tr>
 		</table>
 		<div class="pageCode">
@@ -63,8 +63,9 @@
 	                currentPageIndex = temp.index;
 	                for (var i = 0; i < result.length; i++) {
 	                	htmlStr+= '<tr class="data"><th>' + result[i].pkId 
-	                	+ '</th><th>' + result[i].pkId + '</th><th>' 
-	                	+ result[i].pkId + '</th><th>' + result[i].pkId
+	                	+ '</th><th>' + result[i].description
+	                	+ '</th><th>' + result[i].categoryName
+	                	+ '</th><th>' + result[i].createdTime
 	                	+ '</th><th><a href="<%=urlPath %>/advertisement/edit?advertisementId=' + result[i].pkId + '">编辑</a><a target="blank" href="<%=urlPath %>/advertisement/getAdvertisementDetailPage?advertisementId=' + result[i].pkId + '">预览</a><a class="delete" data-id="'+ result[i].pkId +'">删除</a></th></tr>'
 	                }
 	                $('#table').append(htmlStr);
@@ -75,9 +76,13 @@
 	                	if (currentPageIndex == 1) {
 	                		$('#prev').addClass("disabled");
 	                		$('#next').removeClass("disabled");
+	                		$('#prev').unbind('click');
+	                		bindNextEvent();
 	                	} else if (currentPageIndex == temp.pageCount) {
 	                		$('#next').addClass("disabled");
 	                		$('#prev').removeClass("disabled");
+	                		$('#next').unbind('click');
+	                		bindPrevEvent();
 	                	}
 	                }
 	                
@@ -108,13 +113,17 @@
     		});
     	}
     	
-    	$('#prev').on('click', function() {
-    		getAdvertisements(Number(currentPageIndex) - Number(1));
-		});
+    	function bindPrevEvent() {
+	    	$('#prev').on('click', function() {
+	    		getAdvertisements(Number(currentPageIndex) - Number(1));
+			});
+    	}
     	
-    	$('#next').on('click', function() {
-    		getAdvertisements(Number(currentPageIndex) + Number(1));
-		});
+    	function bindNextEvent() {
+	    	$('#next').on('click', function() {
+	    		getAdvertisements(Number(currentPageIndex) + Number(1));
+			});
+    	}
     });
 </script>
 </html>

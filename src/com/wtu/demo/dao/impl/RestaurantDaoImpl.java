@@ -3,6 +3,7 @@ package com.wtu.demo.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
         try {
             connection = DBUtil.getConnection();
             preparedStatement = connection.prepareStatement("select * from restaurant where deleted = 0 limit ?,?");
-            preparedStatement.setLong(1, index);
+            preparedStatement.setLong(1, (index - 1) * pageSize);
             preparedStatement.setLong(2, pageSize);
 
             resultSet = preparedStatement.executeQuery();
@@ -34,9 +35,11 @@ public class RestaurantDaoImpl implements RestaurantDao {
             	Restaurant restaurant = new Restaurant();
 
             	restaurant.setPkId(resultSet.getLong("pkId"));
-            	restaurant.setRestaurantName(resultSet.getString("restaurantName"));
+            	restaurant.setName(resultSet.getString("name"));
+            	restaurant.setAddress(resultSet.getString("address"));
             	restaurant.setDescription(resultSet.getString("description"));
             	restaurant.setImage(resultSet.getString("image"));
+            	restaurant.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
 
             	restaurants.add(restaurant);
 			}
@@ -67,7 +70,11 @@ public class RestaurantDaoImpl implements RestaurantDao {
             	Restaurant restaurant = new Restaurant();
 
             	restaurant.setPkId(resultSet.getLong("pkId"));
-            	restaurant.setRestaurantName(resultSet.getString("restaurantName"));
+            	restaurant.setName(resultSet.getString("name"));
+            	restaurant.setAddress(resultSet.getString("address"));
+            	restaurant.setDescription(resultSet.getString("description"));
+            	restaurant.setImage(resultSet.getString("image"));
+            	restaurant.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
 
             	restaurants.add(restaurant);
 			}
@@ -120,7 +127,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
             preparedStatement = connection.prepareStatement("update restaurant set deleted = 1 where pkId = ?");
             preparedStatement.setLong(1, id);
 
-            result = preparedStatement.execute();
+            result = !preparedStatement.execute();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -148,11 +155,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
 
             if (resultSet.next()) {
 
-
             	restaurant.setPkId(resultSet.getLong("pkId"));
-            	restaurant.setRestaurantName(resultSet.getString("restaurantName"));
+            	restaurant.setName(resultSet.getString("name"));
+            	restaurant.setAddress(resultSet.getString("address"));
             	restaurant.setDescription(resultSet.getString("description"));
             	restaurant.setImage(resultSet.getString("image"));
+            	restaurant.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
 			}
         } catch (Exception e) {
             e.printStackTrace();
@@ -165,8 +173,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 	}
 
 	@Override
-	public boolean createRestaurant(String restaurantame,
-			String restaurantAddress, String restaurantImage) {
+	public boolean createRestaurant(String name, String address, String description, String image) {
 		Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -175,10 +182,11 @@ public class RestaurantDaoImpl implements RestaurantDao {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("insert into restaurant(restaurantame, restaurantAddress, restaurantImage) values(?, ?, ?)");
-            preparedStatement.setString(1, restaurantame);
-            preparedStatement.setString(2, restaurantAddress);
-            preparedStatement.setString(3, restaurantImage);
+            preparedStatement = connection.prepareStatement("insert into restaurant(name, address, description, image) values(?, ?, ?, ?)");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, address);
+            preparedStatement.setString(3, description);
+            preparedStatement.setString(4, image);
 
             result = !preparedStatement.execute();
         } catch (Exception e) {
@@ -193,8 +201,7 @@ public class RestaurantDaoImpl implements RestaurantDao {
 	}
 
 	@Override
-	public boolean editRestaurantById(Long id, String restaurantame,
-			String restaurantAddress, String restaurantImage) {
+	public boolean editRestaurantById(Long id, String name, String address, String description, String image) {
 		Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -203,11 +210,12 @@ public class RestaurantDaoImpl implements RestaurantDao {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("update restaurant set categoryName = ?, restaurantAddress = ?, restaurantImage = ? where pkId = ?");
-            preparedStatement.setString(1, restaurantame);
-            preparedStatement.setString(2, restaurantAddress);
-            preparedStatement.setString(3, restaurantImage);
-            preparedStatement.setLong(4, id);
+            preparedStatement = connection.prepareStatement("update restaurant set name = ?, address = ?, description = ?, image = ? where pkId = ?");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, address);
+            preparedStatement.setString(3, description);
+            preparedStatement.setString(4, image);
+            preparedStatement.setLong(5, id);
 
             result = !preparedStatement.execute();
         } catch (Exception e) {

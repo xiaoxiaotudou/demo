@@ -14,7 +14,7 @@
   			<li class="nav-header" style="font-size: 18px;">餐厅管理</li>
   			<li><a href="<%=basePath %>/restaurant/index" style="margin-left: 10px;" id="restaurantList">餐厅列表</a></li>
   			<li class="nav-header" style="font-size: 18px;">菜品管理</li>
-  			<li><a href="javascript:void(0)" style="margin-left: 10px;">菜品列表</a></li>
+  			<li><a href="<%=basePath %>/dish/index" style="margin-left: 10px;" id="dishList">菜品列表</a></li>
   			<li><a href="<%=basePath %>/dishCategory/index" style="margin-left: 10px;" id="dishCategoryList">菜品类别</a></li>
   			<li class="nav-header" style="font-size: 18px;">订单管理</li>
   			<li><a href="javascript:void(0)" style="margin-left: 10px;">订单列表</a></li>

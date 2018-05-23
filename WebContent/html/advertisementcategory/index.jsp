@@ -69,7 +69,8 @@
 	                currentPageIndex = temp.index;
 	                for (var i = 0; i < result.length; i++) {
 	                	htmlStr+= '<tr class="data"><th>' + result[i].pkId 
-	                	+ '</th><th>' + result[i].pkId + '</th><th>' + result[i].pkId
+	                	+ '</th><th>' + result[i].categoryName
+	                	+ '</th><th>' + result[i].createdTime
 	                	+ '</th><th><a class="edit" data-id="'+ result[i].pkId +'">编辑</a><a class="delete" data-id="'+ result[i].pkId +'">删除</a></th></tr>'
 	                }
 	                $('#table').append(htmlStr);
@@ -80,9 +81,13 @@
 	                	if (currentPageIndex == 1) {
 	                		$('#prev').addClass("disabled");
 	                		$('#next').removeClass("disabled");
+	                		$('#prev').unbind('click');
+	                		bindNextEvent();
 	                	} else if (currentPageIndex == temp.pageCount) {
 	                		$('#next').addClass("disabled");
 	                		$('#prev').removeClass("disabled");
+	                		$('#next').unbind('click');
+	                		bindPrevEvent();
 	                	}
 	                }
 	                
@@ -171,14 +176,17 @@
 	            }
 	        });
     	});
-		
-		$('#prev').on('click', function() {
-			getAdvertisementCategory(Number(currentPageIndex) - Number(1));
-		});
+		function bindPrevEvent() {
+			$('#prev').on('click', function() {
+				getAdvertisementCategory(Number(currentPageIndex) - Number(1));
+			});
+		}
     	
-    	$('#next').on('click', function() {
-    		getAdvertisementCategory(Number(currentPageIndex) + Number(1));
-		});
+		function bindNextEvent() {
+	    	$('#next').on('click', function() {
+	    		getAdvertisementCategory(Number(currentPageIndex) + Number(1));
+			});
+		}
     });
 </script>
 </html>

@@ -10,6 +10,6 @@ public interface RestaurantService {
 	public Restaurant getRestaurantById(String id);
 	public long getRestaurantCount();
 	public boolean deleteRestaurantById(String id);
-	public boolean createRestaurant(String restaurantame, String restaurantAddress, String restaurantImage);
-	public boolean editRestaurantById(String id, String restaurantame, String restaurantAddress, String restaurantImage);
+	public boolean createRestaurant(String name, String address, String description, String image);
+	public boolean editRestaurantById(String id, String name, String address, String description, String image);
 }

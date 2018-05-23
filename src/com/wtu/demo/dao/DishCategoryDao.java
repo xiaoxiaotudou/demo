@@ -11,5 +11,5 @@ public interface DishCategoryDao {
 	public DishCategory getDishCategoryById(Long id);
 	public boolean deleteDishCategoryById(Long id);
 	public boolean editDishCategory(Long categoryId, String categoryName);
-	public long createDishCategory(Long restaurantId, String categoryName);
+	public boolean createDishCategory(Long restaurantId, String categoryName);
 }

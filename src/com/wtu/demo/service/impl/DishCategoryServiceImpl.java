@@ -40,4 +40,14 @@ public class DishCategoryServiceImpl implements DishCategoryService {
 	public boolean deleteDishCategoryById(String id) {
 		return dishCategoryDaoImpl.deleteDishCategoryById(Long.valueOf(id));
 	}
+
+	@Override
+	public boolean editDishCategory(String categoryId, String categoryName) {
+		return dishCategoryDaoImpl.editDishCategory(Long.valueOf(categoryId), categoryName);
+	}
+
+	@Override
+	public boolean createDishCategory(String restaurantId, String categoryName) {
+		return dishCategoryDaoImpl.createDishCategory(Long.valueOf(restaurantId), categoryName);
+	}
 }

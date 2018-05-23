@@ -75,4 +75,22 @@ public class DishCategoryController extends BaseController {
 
 		return JsonUtil.convertObjectToJson(dishCategories);
 	}
+
+	@RequestMapping(value="/create", method=RequestMethod.POST)
+	@ResponseBody
+	public String createDishCategory(@RequestParam("restaurantId") String restaurantId,
+			@RequestParam("dishCategoryName") String dishCategoryName) {
+		boolean result = dishCategoryServiceImpl.createDishCategory(restaurantId, dishCategoryName);;
+
+		return JsonUtil.convertObjectToJson(result);
+	}
+
+	@RequestMapping(value="/edit", method=RequestMethod.POST)
+	@ResponseBody
+	public String editDishCategory(@RequestParam("dishCategoryId") String dishCategoryId,
+			@RequestParam("dishCategoryName") String dishCategoryName) {
+		boolean result = dishCategoryServiceImpl.editDishCategory(dishCategoryId, dishCategoryName);
+
+		return JsonUtil.convertObjectToJson(result);
+	}
 }

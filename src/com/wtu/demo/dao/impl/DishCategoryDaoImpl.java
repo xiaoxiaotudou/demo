@@ -3,6 +3,7 @@ package com.wtu.demo.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,8 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
             	DishCategory dishCategory = new DishCategory();
 
             	dishCategory.setPkId(resultSet.getLong("pkId"));
-            	dishCategory.setDishCategoryName(resultSet.getString("dishCategoryName"));
+            	dishCategory.setName(resultSet.getString("dishCategoryName"));
+            	dishCategory.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
 
             	dishCategories.add(dishCategory);
 			}
@@ -48,7 +50,6 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
         return dishCategories;
 	}
 
-
 	@Override
     public List<DishCategory> getAllDishCategoryByPagination(Long index, Long pageSize, Long restaurantId) {
         Connection connection = null;
@@ -58,10 +59,10 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
 
         try {
             connection = DBUtil.getConnection();
-            preparedStatement = connection.prepareStatement("select * from restaurant_dishcategory where deleted = 0 and restaurantId = ? limit ?, ?");
+            preparedStatement = connection.prepareStatement("select * from dish_category where pkId in (select dishCategoryId from restaurant_dishcategory where restaurantId = ?) and deleted = 0 limit ?, ?");
 
             preparedStatement.setLong(1, restaurantId);
-            preparedStatement.setLong(2, index);
+            preparedStatement.setLong(2, (index - 1) * pageSize);
             preparedStatement.setLong(3, pageSize);
 
             resultSet = preparedStatement.executeQuery();
@@ -70,7 +71,8 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
             	DishCategory dishCategory = new DishCategory();
 
             	dishCategory.setPkId(resultSet.getLong("pkId"));
-            	dishCategory.setDishCategoryName(resultSet.getString("categoryName"));
+            	dishCategory.setName(resultSet.getString("dishCategoryName"));
+            	dishCategory.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
 
             	dishCategories.add(dishCategory);
             }
@@ -111,7 +113,6 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
         return count;
     }
 
-
 	@Override
 	public DishCategory getDishCategoryById(Long id) {
 		Connection connection = null;
@@ -121,7 +122,7 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
 
         try {
             connection = DBUtil.getConnection();
-            preparedStatement = connection.prepareStatement("select * from restaurant_dishcategory where pkId = ?");
+            preparedStatement = connection.prepareStatement("select * from dish_category where pkId = ?");
             preparedStatement.setLong(1, id);
 
             resultSet = preparedStatement.executeQuery();
@@ -129,7 +130,8 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
             if (resultSet.next()) {
 
             	dishCategory.setPkId(resultSet.getLong("pkId"));
-            	dishCategory.setDishCategoryName(resultSet.getString("categoryName"));
+            	dishCategory.setName(resultSet.getString("dishCategoryName"));
+            	dishCategory.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -152,10 +154,10 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("update restaurant_dishcategory set deleted = 1 where pkId = ?");
+            preparedStatement = connection.prepareStatement("update dish_category set deleted = 1 where pkId = ?");
             preparedStatement.setLong(1, id);
 
-            result = preparedStatement.execute();
+            result = !preparedStatement.execute();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -166,7 +168,6 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
 
         return result;
     }
-
 
 	@Override
 	public boolean editDishCategory(Long categoryId, String categoryName) {
@@ -195,24 +196,26 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
 	}
 
 	@Override
-	public long createDishCategory(Long restaurantId, String categoryName) {
+	public boolean createDishCategory(Long restaurantId, String categoryName) {
 		Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        long result = 0;
+        long pkId = 0;
+        boolean result = false;
 
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("insert into dish_category(dishCategoryName) values(?)");
+            preparedStatement = connection.prepareStatement("insert into dish_category(dishCategoryName) values(?);select @@identity pkId");
             preparedStatement.setString(1, categoryName);
 
-            if(!preparedStatement.execute()) {
-            	resultSet = preparedStatement.executeQuery("Select LAST_INSERT_ID()");
-            	if (resultSet.next()) {
-            		result = resultSet.getLong(1);
-            	}
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+            	pkId = resultSet.getLong("pkId");
             }
+
+            result = !connection.prepareStatement("insert into restaurant_dishcategory(restaurantId, dishCategoryId) values(" + restaurantId +"," + pkId + ")").execute();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

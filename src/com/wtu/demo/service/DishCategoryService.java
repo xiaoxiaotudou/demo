@@ -10,4 +10,6 @@ public interface DishCategoryService {
 	public long getDishCategoryCount();
 	public DishCategory getDishCategoryById(String id);
 	public boolean deleteDishCategoryById(String id);
+	public boolean editDishCategory(String categoryId, String categoryName);
+	public boolean createDishCategory(String restaurantId, String categoryName);
 }

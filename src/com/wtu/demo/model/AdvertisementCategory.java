@@ -1,8 +1,10 @@
 package com.wtu.demo.model;
 
+
 public class AdvertisementCategory {
-    private long pkId = -1;
-    private String categoryName = null;
+    private long pkId;
+    private String categoryName;
+    private String createdTime;
 
     public long getPkId() {
         return pkId;
@@ -16,4 +18,10 @@ public class AdvertisementCategory {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+	public String getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
+	}
 }
