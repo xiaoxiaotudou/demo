@@ -84,7 +84,7 @@ public class RestaurantController extends BaseController {
 		Map<String, Object> result =  new HashMap<String, Object>();
 		List<Restaurant> restaurants = restaurantServiceImpl.getAllRestaurantByPagination(index, pageSize);
 		Long count = restaurantServiceImpl.getRestaurantCount();
-		Long pageCount = count/Long.valueOf(pageSize) + 1;
+		Long pageCount = count%Long.valueOf(pageSize) == 0 ? count/Long.valueOf(pageSize) : count/Long.valueOf(pageSize) + 1;
 
 		result.put("restaurants", restaurants);
 		result.put("index", index);

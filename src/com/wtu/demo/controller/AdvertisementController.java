@@ -68,6 +68,20 @@ public class AdvertisementController extends BaseController {
 		return JsonUtil.convertObjectToJson(result);
 	}
 
+	@RequestMapping(value="/edit", method=RequestMethod.POST)
+	@ResponseBody
+	public String editAdvertisement(@RequestParam("id") String id,
+	        @RequestParam("categoryId") String categoryId,
+	        @RequestParam("weight") String weight,
+	        @RequestParam("description") String description,
+	        @RequestParam("detail") String detail) {
+		boolean result = false;
+
+		result = advertisementServiceImpl.editAdvertisement(id, categoryId, weight, description, detail);
+
+		return JsonUtil.convertObjectToJson(result);
+	}
+
 	@RequestMapping(value="/getAdvertisementDetailPage", method=RequestMethod.GET)
     public ModelAndView getAdvertisementDetailPage(@RequestParam("advertisementId") String advertisementId) {
 	    ModelAndView modelAndView = new ModelAndView();
@@ -93,7 +107,7 @@ public class AdvertisementController extends BaseController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<Advertisement> advertisements = advertisementServiceImpl.getAllAdvertisement(index, pageSize);
 		Long count = advertisementServiceImpl.getAdvertisementCount();
-		Long pageCount = count/Long.valueOf(pageSize) + 1;
+		Long pageCount = count%Long.valueOf(pageSize) == 0 ? count/Long.valueOf(pageSize) : count/Long.valueOf(pageSize) + 1;
 
 		result.put("advertisements", advertisements);
 		result.put("index", index);

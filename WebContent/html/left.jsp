@@ -9,8 +9,8 @@
 	<div style="width: 10%;display: inline-block;margin-left: 30px;vertical-align: top;height:610px">
 		<ul class="nav nav-list" style="margin-top: 20px;" id="left-manage">
   			<li class="nav-header" style="font-size: 18px;">用户管理</li>
-  			<li><a href="javascript:void(0)" style="margin-left: 10px;">用户列表</a></li>
-  			<li><a href="javascript:void(0)" style="margin-left: 10px;">添加用户</a></li>
+  			<li><a href="<%=basePath %>/user/index" style="margin-left: 10px;" id="userList">用户列表</a></li>
+  			<li><a href="<%=basePath %>/user/create" style="margin-left: 10px;" id="addUser">添加用户</a></li>
   			<li class="nav-header" style="font-size: 18px;">餐厅管理</li>
   			<li><a href="<%=basePath %>/restaurant/index" style="margin-left: 10px;" id="restaurantList">餐厅列表</a></li>
   			<li class="nav-header" style="font-size: 18px;">菜品管理</li>

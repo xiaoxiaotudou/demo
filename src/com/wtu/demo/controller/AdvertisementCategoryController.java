@@ -76,7 +76,7 @@ public class AdvertisementCategoryController extends BaseController {
     	Map<String, Object> result = new HashMap<String, Object>();
         List<AdvertisementCategory> advertisementCategories = advertisementCategoryServiceImpl.getAllAdvertisementCategoryByPagination(index, pageSize);
         Long count = advertisementCategoryServiceImpl.getAdvertisementCategoryCount();
-		Long pageCount = count/Long.valueOf(pageSize) + 1;
+		Long pageCount = count%Long.valueOf(pageSize) == 0 ? count/Long.valueOf(pageSize) : count/Long.valueOf(pageSize) + 1;
 
         result.put("advertisementCategories", advertisementCategories);
         result.put("index", index);

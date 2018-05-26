@@ -4,12 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <%
 	String basePath = request.getContextPath();
 	String urlPath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/demo";
 %>
-<title>广告类别</title>
+<title>餐厅列表</title>
 <style type="text/css">
 	#table th,td {
         border: 1px solid #000;
@@ -147,12 +146,17 @@
     		$.ajax({
 	            type: "POST",
 	            url: "<%=urlPath %>"+"/restaurant/edit",
-	            data: {id : $('#restaurantId').val(), name : $('#restaurantName').val(), address : $('#restaurantAddress').val(), description : $('#restaurantDescription').val(), image : $('restaurantImage')},
+	            data: {id : $('#restaurantId').val(), name : $('#restaurantName').val(), address : $('#restaurantAddress').val(), description : $('#restaurantDescription').val(), image : $('#restaurantImage').val()},
 	            datatype: "json",
 	            success: function(data){
 	            	var result = eval("(" + data + ")");
 	            	
 	            	if (result) {
+	            		$('#restaurantId').val("");
+	            		$('#restaurantName').val("");
+	            		$('#restaurantAddress').val("");
+	            		$('#restaurantDescription').val("");
+	            		$('#restaurantImage').val("");
 	            		alert("编辑成功！");
 	            	} else {
 	            		alert("编辑失败，请稍后再试！");
@@ -165,12 +169,17 @@
 			$.ajax({
 	            type: "POST",
 	            url: "<%=urlPath %>"+"/restaurant/create",
-	            data: {name : $('#restaurantName').val(), address : $('#restaurantAddress').val(), description : $('#restaurantDescription').val(), image : $('restaurantImage')},
+	            data: {name : $('#restaurantName').val(), address : $('#restaurantAddress').val(), description : $('#restaurantDescription').val(), image : $('#restaurantImage').val()},
 	            datatype: "json",
 	            success: function(data){
 	            	var result = eval("(" + data + ")");
 	            	
 	            	if (result) {
+	            		$('#restaurantId').val("");
+	            		$('#restaurantName').val("");
+	            		$('#restaurantAddress').val("");
+	            		$('#restaurantDescription').val("");
+	            		$('#restaurantImage').val("");
 	            		alert("添加成功！");
 	            	} else {
 	            		alert("添加失败，请稍后再试！");

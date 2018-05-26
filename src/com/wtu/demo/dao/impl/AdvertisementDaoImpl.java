@@ -46,6 +46,36 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 	}
 
 	@Override
+	public boolean editAdvertisement(Long id, Long categoryId, Double weight,
+			String description, String detail) {
+		Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        boolean result = false;
+
+        try {
+            connection = DBUtil.getConnection();
+            connection.setAutoCommit(true);
+            preparedStatement = connection.prepareStatement("update advertisement set categoryId = ?, weight = ?, description = ?, detail = ? where pkId = ?");
+            preparedStatement.setLong(1, categoryId);
+            preparedStatement.setDouble(2, weight);
+            preparedStatement.setString(3, description);
+            preparedStatement.setString(4, detail);
+            preparedStatement.setLong(5, id);
+
+            result = !preparedStatement.execute();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            DBUtil.close(resultSet, preparedStatement, connection);
+        } finally {
+            DBUtil.close(resultSet, preparedStatement, connection);
+        }
+
+        return result;
+	}
+
+	@Override
 	public Advertisement getAdvertisementById(Long pkId) {
 		Connection connection = null;
         PreparedStatement preparedStatement = null;

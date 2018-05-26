@@ -206,13 +206,14 @@ public class DishCategoryDaoImpl implements DishCategoryDao {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("insert into dish_category(dishCategoryName) values(?);select @@identity pkId");
+            preparedStatement = connection.prepareStatement("insert into dish_category(dishCategoryName) values(?)");
             preparedStatement.setString(1, categoryName);
 
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-            	pkId = resultSet.getLong("pkId");
+            if (!preparedStatement.execute()) {
+            	resultSet = connection.prepareStatement("select @@identity").executeQuery();
+            	if (resultSet.next()) {
+            		pkId = resultSet.getLong(1);
+            	}
             }
 
             result = !connection.prepareStatement("insert into restaurant_dishcategory(restaurantId, dishCategoryId) values(" + restaurantId +"," + pkId + ")").execute();

@@ -155,7 +155,7 @@
     	            	$('#dishId').val(result.pkId);
     	            	$('#dishName').val(result.dishName);
     	            	$('#dishPrice').val(result.dishPrice);
-    	            	$('#dishImage').val(result.dishImage);
+    	            	$('#dishImage').val(result.image);
     	            }
     	        });
     		});
@@ -207,7 +207,7 @@
     		getDish(1, $('#restaurantId option:selected').val(), $('#dishCategoryId option:selected').val());
     	});
 
-    	$('#dishCategoryEdit').on('click', function() {
+    	$('#dishEdit').on('click', function() {
     		$.ajax({
 	            type: "POST",
 	            url: "<%=urlPath %>"+"/dish/edit",
@@ -229,7 +229,7 @@
 	        });
     	});
 
-		$('#dishCategoryAdd').on('click', function() {
+		$('#dishAdd').on('click', function() {
 			$.ajax({
 	            type: "POST",
 	            url: "<%=urlPath %>"+"/dish/create",

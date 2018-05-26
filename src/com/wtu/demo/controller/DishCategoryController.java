@@ -43,7 +43,7 @@ public class DishCategoryController extends BaseController {
     	Map<String, Object> result = new HashMap<String, Object>();
         List<DishCategory> dishCategories = dishCategoryServiceImpl.getAllDishCategoryByPagination(index, pageSize, restaurantId);
         Long count = dishCategoryServiceImpl.getDishCategoryCount();
-		Long pageCount = count/Long.valueOf(pageSize) + 1;
+        Long pageCount = count%Long.valueOf(pageSize) == 0 ? count/Long.valueOf(pageSize) : count/Long.valueOf(pageSize) + 1;
 
         result.put("dishCategories", dishCategories);
         result.put("index", index);

@@ -51,7 +51,7 @@ public class DishController extends BaseController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<Dish> dishs = dishServiceImpl.getAllDishByPagination(dishCategoryId, index, pageSize);
 		Long count = dishServiceImpl.getAllDishCountByCategoryId(dishCategoryId);
-		Long pageCount = count/Long.valueOf(pageSize) + 1;
+		Long pageCount = count%Long.valueOf(pageSize) == 0 ? count/Long.valueOf(pageSize) : count/Long.valueOf(pageSize) + 1;
 
         result.put("dishs", dishs);
         result.put("index", index);

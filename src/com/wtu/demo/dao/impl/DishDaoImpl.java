@@ -193,7 +193,7 @@ public class DishDaoImpl implements DishDao {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("update dish set dishName = ?, dishPrice = ?, dishImage = ? where pkId = ?");
+            preparedStatement = connection.prepareStatement("update dish set dishName = ?, dishPrice = ?, image = ? where pkId = ?");
 
             preparedStatement.setString(1, dishName);
             preparedStatement.setDouble(2, dishPrice);
@@ -223,7 +223,7 @@ public class DishDaoImpl implements DishDao {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("insert into dish(dishCategoryId, dishName, dishPrice, dishImage values(?, ?, ?, ?))");
+            preparedStatement = connection.prepareStatement("insert into dish(dishCategoryId, dishName, dishPrice, image) values(?, ?, ?, ?)");
             preparedStatement.setLong(1, dishCategoryId);
             preparedStatement.setString(2, dishName);
             preparedStatement.setDouble(3, dishPrice);

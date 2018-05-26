@@ -21,6 +21,12 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		return advertisementDaoImpl.createAdvertisement(Long.valueOf(categoryId), Double.valueOf(weight), description, detail);
 	}
 
+	@Override
+	public boolean editAdvertisement(String id, String categoryId,
+			String weight, String description, String detail) {
+		return advertisementDaoImpl.editAdvertisement(Long.valueOf(id), Long.valueOf(categoryId), Double.valueOf(weight), description, detail);
+	}
+
     @Override
     public Advertisement getAdvertisementById(String pkId) {
         return advertisementDaoImpl.getAdvertisementById(Long.valueOf(pkId));
@@ -46,4 +52,5 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 	public long getAdvertisementCount() {
 		return advertisementDaoImpl.getAdvertisementCount();
 	}
+
 }
