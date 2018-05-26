@@ -92,7 +92,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
             		+ "advertisement.detail, "
             		+ "advertisement.weight, "
             		+ "advertisement.createdTime "
-            		+ "from advertisement inner join advertisement_category on advertisement.categoryId = advertisement_category.pkId limit ?,?");
+            		+ "from advertisement inner join advertisement_category on advertisement.categoryId = advertisement_category.pkId where advertisement.deleted = 0 limit ?,?");
             preparedStatement.setLong(1, (index - 1) * pageSize);
             preparedStatement.setLong(2, pageSize);
 
@@ -138,7 +138,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
             		+ "advertisement.detail, "
             		+ "advertisement.weight, "
             		+ "advertisement.createdTime "
-            		+ "from advertisement inner join advertisement_category on advertisement.categoryId = advertisement_category.pkId where advertisement.categoryId = ? limit ?,?");
+            		+ "from advertisement inner join advertisement_category on advertisement.categoryId = advertisement_category.pkId where advertisement.categoryId = ? and advertisement.deleted = 0 limit ?,?");
             preparedStatement.setLong(1, categoryId);
             preparedStatement.setLong(2, (index - 1) * pageSize);
             preparedStatement.setLong(3, pageSize);
