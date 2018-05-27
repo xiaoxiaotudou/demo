@@ -16,6 +16,6 @@
 <script type="text/javascript" src="<%=basePath %>/js/common.js"></script>
 </head>
 <body style="margin: 0;">
-<div style="width: 100%;height: 80px;background-color: #2E4358;"></div>
+<div style="width: 100%;height: 100px;background-color: #2E4358;"></div>
 </body>
 </html>

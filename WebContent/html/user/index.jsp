@@ -23,7 +23,7 @@
 <body>
     <jsp:include page="/html/header.jsp" flush="true"/>
 	<jsp:include page="/html/left.jsp" flush="true"/>
-	<div style="width: 70%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;height:500px;margin-top: 30px;">
+	<div style="width: 70%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;height:700px;margin-top: 30px;">
 		<table id="table" style="width: 100%;text-align: center;">
 			<tr>
     			<td style="width: 15%">编号</td>
@@ -59,12 +59,12 @@
 	            success: function(data){
 	            	var htmlStr = "";
 	            	var temp = eval("(" + data + ")");
-	                var result = temp.advertisements;
+	                var result = temp.users;
 	                currentPageIndex = temp.index;
 	                for (var i = 0; i < result.length; i++) {
 	                	htmlStr+= '<tr class="data"><th>' + result[i].pkId 
 	                	+ '</th><th>' + result[i].firstName + result[i].lastName
-	                	+ '</th><th>' + result[i].gender
+	                	+ '</th><th>' + (result[i].gender == 'male' ? '男' : '女')
 	                	+ '</th><th>' + result[i].tel
 	                	+ '</th><th>' + result[i].createdTime
 	                	+ '</th><th><a href="<%=urlPath %>/user/edit?userId=' + result[i].pkId + '">编辑</a><a class="delete" data-id="'+ result[i].pkId +'">删除</a></th></tr>'

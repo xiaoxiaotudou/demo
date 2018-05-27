@@ -22,7 +22,7 @@
 <body>
 	<jsp:include page="/html/header.jsp" flush="true"/>
 	<jsp:include page="/html/left.jsp" flush="true"/>
-	<div style="width: 70%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;height:500px;margin-top: 30px;">
+	<div style="width: 70%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;height:700px;margin-top: 30px;">
 		<table id="table" style="width: 100%;text-align: center;">
 			<tr>
     			<td style="width: 15%">编号</td>

@@ -16,15 +16,15 @@
 <body>
 	<jsp:include page="/html/header.jsp" flush="true"/>
 	<jsp:include page="/html/left.jsp" flush="true"/>
-	<div style="width: 75%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;">
+	<div style="width: 75%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;height: 700px;">
         <div>
 			<h3 style="display: inline-block;width: 150px;text-align: right;text-align-last: justify;">用户名：</h3>
 			<%
-				if (userId != null || userId != "") {
+				if (userId != null && userId != "") {
 			%>
-			<input type="text" id="userName" />
-			<% } else { %>
 			<input type="text" id="userName" readonly="readonly" />
+			<% } else { %>
+			<input type="text" id="userName" />
 			<% } %>
         </div>
         <div>

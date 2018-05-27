@@ -23,7 +23,7 @@
 <body>
 	<jsp:include page="/html/header.jsp" flush="true"/>
 	<jsp:include page="/html/left.jsp" flush="true"/>
-	<div style="width: 70%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;height:500px;margin-top: 30px;">
+	<div style="width: 70%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;height:700px;margin-top: 30px;">
 		<div>
          	<h3 style="display: inline-block;">餐厅名称：</h3>
          	<span>
