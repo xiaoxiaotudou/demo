@@ -5,7 +5,7 @@ import java.util.List;
 import com.wtu.demo.model.User;
 
 public interface UserService {
-    public boolean checkSignIn(String email, String password);
+    public User checkSignIn(String email, String password);
     public List<User> getAllUserByPagination(String index, String pageSize);
     public long geyAllUserCount();
     public User getUserById(String id);

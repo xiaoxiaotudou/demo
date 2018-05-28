@@ -16,13 +16,8 @@ public class UserServiceImpl implements UserService {
     private UserDaoImpl userDaoImpl;
 
     @Override
-    public boolean checkSignIn(String account, String password) {
-        User user = userDaoImpl.getUserByEmail(account);
-        return user.getAccount() != null
-                && user.getPassword() != null
-                && user.getAccount().equals(account)
-                && user.getPassword().equals(password)
-                && user.isAdmin();
+    public User checkSignIn(String account, String password) {
+        return userDaoImpl.getUserByEmail(account);
     }
 
 	@Override

@@ -185,13 +185,20 @@ public class UserDaoImpl implements UserDao {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("update user set password = ?, userName = ?, gender = ?,  tel = ? where pkId = ?");
-            preparedStatement.setString(1, password);
-            preparedStatement.setString(2, userName);
-            preparedStatement.setString(3, gender);
-            preparedStatement.setString(4, tel);
-            preparedStatement.setLong(5, pkId);
-
+            if (password != "" && password != null) {
+                preparedStatement = connection.prepareStatement("update user set password = ?, userName = ?, gender = ?,  tel = ? where pkId = ?");
+                preparedStatement.setString(1, password);
+                preparedStatement.setString(2, userName);
+                preparedStatement.setString(3, gender);
+                preparedStatement.setString(4, tel);
+                preparedStatement.setLong(5, pkId);
+            } else {
+                preparedStatement = connection.prepareStatement("update user set userName = ?, gender = ?,  tel = ? where pkId = ?");
+                preparedStatement.setString(1, userName);
+                preparedStatement.setString(2, gender);
+                preparedStatement.setString(3, tel);
+                preparedStatement.setLong(4, pkId);
+            }
             result = !preparedStatement.execute();
         } catch (Exception e) {
             // TODO Auto-generated catch block

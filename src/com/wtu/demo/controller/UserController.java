@@ -54,7 +54,7 @@ public class UserController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="create", method=RequestMethod.POST)
+	@RequestMapping(value="/create", method=RequestMethod.POST)
 	@ResponseBody
 	public String createUser(@RequestParam("account") String account,
 			@RequestParam("password") String password,
@@ -66,7 +66,7 @@ public class UserController {
 		return JsonUtil.convertObjectToJson(result);
 	}
 
-	@RequestMapping(value="edit", method=RequestMethod.POST)
+	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	@ResponseBody
 	public String editUser(@RequestParam("id") String id,
 			@RequestParam("password") String password,
@@ -82,6 +82,25 @@ public class UserController {
 	@ResponseBody
 	public String signin(@RequestParam("account") String account, @RequestParam("password") String password) {
     	return JsonUtil.convertObjectToJson(userServiceImpl.checkSignIn(account, password));
+    }
+
+    @RequestMapping(value = "/mobile/signin", method = RequestMethod.POST)
+    @ResponseBody
+    public String signinForMobile(@RequestParam("account") String account, @RequestParam("password") String password) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        User user = userServiceImpl.checkSignIn(account, password);
+
+        boolean result = user.getAccount() != null
+                && user.getPassword() != null
+                && user.getAccount().equals(account)
+                && user.getPassword().equals(password);
+
+        user.setPassword(null);
+
+        map.put("result", result);
+        map.put("user", user);
+
+        return JsonUtil.convertObjectToJson(map);
     }
 
     @RequestMapping(value="/getAllUserByPagination", method=RequestMethod.GET)
