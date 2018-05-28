@@ -28,9 +28,8 @@
 		<table id="table" style="width: 100%;text-align: center;">
 			<tr>
     			<td style="width: 15%">编号</td>
-    			<td style="width: 30%">标题</td>
-    			<td style="width: 15%">分类</td>
-    			<td style="width: 20%">创建时间</td>
+    			<td style="width: 40%">标题</td>
+    			<td style="width: 25%">创建时间</td>
     			<td style="width: 20%">操作</td>
   			</tr>
 		</table>
@@ -64,16 +63,15 @@
 	                for (var i = 0; i < result.length; i++) {
 	                	htmlStr+= '<tr class="data"><th>' + result[i].pkId 
 	                	+ '</th><th>' + result[i].description
-	                	+ '</th><th>' + result[i].categoryName
 	                	+ '</th><th>' + result[i].createdTime
 	                	+ '</th><th><a href="<%=urlPath %>/advertisement/edit?advertisementId=' + result[i].pkId + '">编辑</a><a target="blank" href="<%=urlPath %>/advertisement/getAdvertisementDetailPage?advertisementId=' + result[i].pkId + '">预览</a><a class="delete" data-id="'+ result[i].pkId +'">删除</a></th></tr>'
 	                }
 	                $('#table').append(htmlStr);
 	                
-	                if (temp.pageCount == 1) {
+	                if (temp.pageCount <= 1) {
 	                	$('.pageCode').css('display', 'none');
 	                } else {
-	                	if (currentPageIndex == 1) {
+	                	if (currentPageIndex == 1 && temp.pageCount > 1) {
 	                		$('#prev').addClass("disabled");
 	                		$('#next').removeClass("disabled");
 	                		$('#prev').unbind('click');
@@ -83,7 +81,12 @@
 	                		$('#prev').removeClass("disabled");
 	                		$('#next').unbind('click');
 	                		bindPrevEvent();
-	                	}
+	                	} else {
+                            $('#prev').addClass("disabled");
+                            $('#next').addClass("disabled");
+                            $('#prev').unbind('click');
+                            $('#next').unbind('click');
+                        }
 	                }
 	                
 	                bindDeleteEvent();

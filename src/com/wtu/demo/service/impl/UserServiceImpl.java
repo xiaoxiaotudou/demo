@@ -16,9 +16,13 @@ public class UserServiceImpl implements UserService {
     private UserDaoImpl userDaoImpl;
 
     @Override
-    public boolean checkSignIn(String email, String password) {
-        User user = userDaoImpl.getUserByEmail(email);
-        return user.getUserName() != null && user.getPassword() != null && user.getUserName().equals(email) && user.getPassword().equals(password);
+    public boolean checkSignIn(String account, String password) {
+        User user = userDaoImpl.getUserByEmail(account);
+        return user.getAccount() != null
+                && user.getPassword() != null
+                && user.getAccount().equals(account)
+                && user.getPassword().equals(password)
+                && user.isAdmin();
     }
 
 	@Override
@@ -37,15 +41,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean createUser(String userName, String tel, String firstName,
-			String lastName, String gender, String password) {
-		return userDaoImpl.createUser(userName, tel, firstName, lastName, gender, password);
+	public boolean createUser(String account, String password, String userName, String gender, String tel) {
+		return userDaoImpl.createUser(account, password, userName, gender, tel);
 	}
 
 	@Override
-	public boolean editUser(String pkId, String tel, String firstName,
-			String lastName, String gender, String password) {
-		return userDaoImpl.editUser(Long.valueOf(pkId), tel, firstName, lastName, gender, password);
+	public boolean editUser(String pkId, String password, String userName, String gender, String tel) {
+		return userDaoImpl.editUser(Long.valueOf(pkId), password, userName, gender, tel);
 	}
 
 	@Override

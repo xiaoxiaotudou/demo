@@ -14,7 +14,7 @@
 	<jsp:include page="/html/header.jsp" flush="true"/>
 	<jsp:include page="/html/left.jsp" flush="true"/>
 	<div style="width: 75%; margin: auto;display: inline-block;margin-left: 5%;margin-bottom: 20px;">
-        <div>
+        <div style="display: none;">
          <h3 style="display: inline-block;">广告类别：</h3>
          <span>
           <select id="categoryId"></select>
@@ -62,22 +62,24 @@
 	             var description = descriptionUE.getAllHtml();
 	             var detail = detailUE.getAllHtml();
 	
-	             if (weight != null) {
-	              $.ajax({
-	                  type: "POST",
-	                  url: "<%=urlPath %>"+"/advertisement/create",
-	                  data: {categoryId : categoryId, weight : weight, description : description, detail : detail},
-	                  datatype: "json",
-	                  success: function(data){
-	                	  var result = eval("(" + data + ")");
-	                	  
-	                	  if (result) {
-	    	            	  alert("添加成功！");
-		            	  } else {
-		            		  alert("添加失败，请稍后再试！");
-		            	  }
-	                  }
-	              });
+	             if (weight != null && weight != '') {
+		              $.ajax({
+		                  type: "POST",
+		                  url: "<%=urlPath %>"+"/advertisement/create",
+		                  data: {categoryId : categoryId, weight : weight, description : description, detail : detail},
+		                  datatype: "json",
+		                  success: function(data){
+		                	  var result = eval("(" + data + ")");
+		                	  
+		                	  if (result) {
+		    	            	  alert("添加成功！");
+			            	  } else {
+			            		  alert("添加失败，请稍后再试！");
+			            	  }
+		                  }
+		              });
+	             } else {
+	            	 alert("权重不能为空");
 	             }
 	         });
     	} else {
@@ -121,22 +123,24 @@
 	             var description = descriptionUE.getAllHtml();
 	             var detail = detailUE.getAllHtml();
 	
-	             if (weight != null) {
-	              $.ajax({
-	                  type: "POST",
-	                  url: "<%=urlPath %>"+"/advertisement/edit",
-	                  data: {id : <%=advertisementId %>,categoryId : categoryId, weight : weight, description : description, detail : detail},
-	                  datatype: "json",
-	                  success: function(data){
-	                	  var result = eval("(" + data + ")");
-	                	  
-	                	  if (result) {
-	    	            	  alert("编辑成功！");
-		            	  } else {
-		            		  alert("编辑失败，请稍后再试！");
-		            	  }
-	                  }
-	              });
+	             if (weight != null && weight != '') {
+		              $.ajax({
+		                  type: "POST",
+		                  url: "<%=urlPath %>"+"/advertisement/edit",
+		                  data: {id : <%=advertisementId %>,categoryId : categoryId, weight : weight, description : description, detail : detail},
+		                  datatype: "json",
+		                  success: function(data){
+		                	  var result = eval("(" + data + ")");
+		                	  
+		                	  if (result) {
+		    	            	  alert("编辑成功！");
+			            	  } else {
+			            		  alert("编辑失败，请稍后再试！");
+			            	  }
+		                  }
+		              });
+	             } else {
+	            	 alert("权重不能为空");
 	             }
 	         });
     	}

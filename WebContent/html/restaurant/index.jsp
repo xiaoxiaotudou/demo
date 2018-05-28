@@ -12,6 +12,7 @@
 <style type="text/css">
 	#table th,td {
         border: 1px solid #000;
+        height: 30px;
     }
     #table a {
         cursor: pointer;
@@ -77,10 +78,10 @@
 	                }
 	                $('#table').append(htmlStr);
 	                
-	                if (temp.pageCount == 1) {
+	                if (temp.pageCount <= 1) {
 	                	$('.pageCode').css('display', 'none');
 	                } else {
-	                	if (currentPageIndex == 1) {
+	                	if (currentPageIndex == 1 && temp.pageCount > 1) {
 	                		$('#prev').addClass("disabled");
 	                		$('#next').removeClass("disabled");
 	                		$('#prev').unbind('click');
@@ -90,6 +91,11 @@
 	                		$('#prev').removeClass("disabled");
 	                		$('#next').unbind('click');
 	                		bindPrevEvent();
+	                	} else {
+	                		$('#prev').addClass("disabled");
+	                		$('#next').addClass("disabled");
+	                		$('#prev').unbind('click');
+	                		$('#next').unbind('click');
 	                	}
 	                }
 	                
@@ -133,6 +139,7 @@
     	            	var result = eval("(" + data + ")");
     	            	
     	            	if (result) {
+    	            		getRestaurant(currentPageIndex);
     	            		alert("删除成功！");
     	            	} else {
     	            		alert("删除失败，请稍后再试！");
@@ -157,6 +164,7 @@
 	            		$('#restaurantAddress').val("");
 	            		$('#restaurantDescription').val("");
 	            		$('#restaurantImage').val("");
+	            		getRestaurant(currentPageIndex);
 	            		alert("编辑成功！");
 	            	} else {
 	            		alert("编辑失败，请稍后再试！");
@@ -180,6 +188,7 @@
 	            		$('#restaurantAddress').val("");
 	            		$('#restaurantDescription').val("");
 	            		$('#restaurantImage').val("");
+	            		getRestaurant(currentPageIndex);
 	            		alert("添加成功！");
 	            	} else {
 	            		alert("添加失败，请稍后再试！");

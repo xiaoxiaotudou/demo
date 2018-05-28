@@ -10,6 +10,6 @@ public interface UserService {
     public long geyAllUserCount();
     public User getUserById(String id);
     public boolean deleteUserById(String id);
-    public boolean createUser(String userName, String tel, String firstName, String lastName, String gender, String password);
-    public boolean editUser(String pkId, String tel, String firstName, String lastName, String gender, String password);
+    public boolean createUser(String account, String password, String userName, String gender, String tel);
+    public boolean editUser(String pkId, String password, String userName, String gender, String tel);
 }

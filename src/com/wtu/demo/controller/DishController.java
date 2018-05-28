@@ -45,7 +45,7 @@ public class DishController extends BaseController {
 
 	@RequestMapping(value="/getAllDishByPagination", method=RequestMethod.GET)
 	@ResponseBody
-	public String getAllDishByPagination(@RequestParam("dishCategoryId") String dishCategoryId,
+	public String getAllDishByPagination(@RequestParam(value="dishCategoryId") String dishCategoryId,
 			@RequestParam("index") String index,
 			@RequestParam("pageSize") String pageSize) {
 		Map<String, Object> result = new HashMap<String, Object>();

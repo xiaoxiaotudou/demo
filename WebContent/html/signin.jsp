@@ -12,23 +12,27 @@
 <script type="text/javascript" src="<%=basePath %>/js/lib/jquery.min.js"></script>
 </head>
 <body>
-	<div style="width: 250px;position: relative;margin-left: 65%;margin-top: 10%;">
-		<div>
-			<span>帐号：</span><input type="text" id="email" />
-		</div>
-		<div style="margin-top: 20px;">
-			<span>密码：</span><input type="password" id="password" />
-		</div>
-		<div style="text-align: center;color: red;" id="errorMsg"></div>
-		<div style="margin-top: 20px;">
-			<input type="button" id="signin" value="登陆" style="width: 70px;height: 30px;border-radius: 5px;margin-left: 70px;" />
-			<a href="#" style="margin-left: 15px;font-size: 14px;">注册</a>
+    <jsp:include page="/html/header.jsp" flush="true"/>
+    <div style="height: 620px;width: 100%;background-image: url(<%=basePath %>/images/bg.jpg);background-size:100% 100%;">
+		<div style="width: 300px;position: relative;margin-left: 65%;top: 10%;">
+			<div>
+				<span style="color: white;">帐号：</span><input type="text" id="account" />
+			</div>
+			<div style="margin-top: 20px;">
+				<span style="color: white;">密码：</span><input type="password" id="password" />
+			</div>
+			<div style="text-align: center;color: red;" id="errorMsg"></div>
+			<div style="margin-top: 20px;">
+				<input type="button" id="signin" value="登陆" style="width: 70px;height: 30px;border-radius: 5px;margin-left: 105px;" />
+				<!-- <a href="#" style="margin-left: 15px;font-size: 14px;">注册</a> -->
+			</div>
 		</div>
 	</div>
+	<jsp:include page="/html/footer.jsp" flush="true"/>
 </body>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#email').focus(function() {
+		$('#account').focus(function() {
 			$('#errorMsg').html("");
 		});
 		$('#password').focus(function() {
@@ -36,10 +40,10 @@
 		});
 		
 		$('#signin').on('click', function() {
-			var email = $('#email').val();
+			var account = $('#account').val();
 			var password = $('#password').val();
 			
-			if(email.search(/@/gi) < 0) {
+			if(account.search(/@/gi) < 0) {
 				$('#errorMsg').html("帐号不合法！");
 				return;
 			}
@@ -47,7 +51,7 @@
 			$.ajax({
                 type: "POST",
                 url: "<%=urlPath %>"+"/user/signin",
-                data: {email : email, password : password},
+                data: {account : account, password : password},
                 datatype: "json",
                 success: function(data){
                      var result = eval("(" + data + ")");

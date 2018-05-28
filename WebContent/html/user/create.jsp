@@ -22,18 +22,14 @@
 			<%
 				if (userId != null && userId != "") {
 			%>
-			<input type="text" id="userName" readonly="readonly" />
+			<input type="text" id="account" readonly="readonly" />
 			<% } else { %>
-			<input type="text" id="userName" />
+			<input type="text" id="account" />
 			<% } %>
         </div>
         <div>
-			<h3 style="display: inline-block;width: 150px;text-align: right;text-align-last: justify;">姓氏：</h3>
-			<input type="text" id="firstName"/>
-        </div>
-        <div>
 			<h3 style="display: inline-block;width: 150px;text-align: right;text-align-last: justify;">姓名：</h3>
-			<input type="text" id="lastName"/>
+			<input type="text" id="userName"/>
         </div>
         <div>
 			<h3 style="display: inline-block;width: 150px;text-align: right;text-align-last: justify;">性别：</h3>
@@ -61,9 +57,8 @@
     	$('#addUser').parent().addClass("active");
     	if (<%=userId %> == "" || <%=userId %> == null) {
 	         $('#submit').on('click', function() {
-	             var userName = $('#userName').val();
-	             var firstName = $('#firstName').val();
-	             var lastName = $('#lastName').val();
+	             var account = $('#account').val();
+	        	 var userName = $('#userName').val();
 	             var gender = $('input[name="gender"]:checked').val();
 	             var tel = $('#tel').val();
 	             var password = $('#password').val();
@@ -73,7 +68,7 @@
 		              $.ajax({
 		                  type: "POST",
 		                  url: "<%=urlPath %>"+"/user/create",
-		                  data: {userName : userName, tel : tel, firstName : firstName, lastName : lastName, gender : gender, password : password},
+		                  data: {account : account, tel : tel, userName : userName, gender : gender, password : password},
 		                  datatype: "json",
 		                  success: function(data){
 		                	  var result = eval("(" + data + ")");
@@ -97,9 +92,8 @@
 	            datatype: "json",
 	            success: function(data){
 	                var result = eval("(" + data + ")");
-	                $('#userName').val(result.userName);
-		            $('#firstName').val(result.firstName);
-		            $('#lastName').val(result.lastName);
+	                $('#account').val(result.account);
+		            $('#userName').val(result.userName);
 		            $('#tel').val(result.tel);
 		            
 		            if (result.gender == "male") {
@@ -111,8 +105,6 @@
 	        });
             $('#submit').on('click', function() {
 	             var userName = $('#userName').val();
-	             var firstName = $('#firstName').val();
-	             var lastName = $('#lastName').val();
 	             var gender = $('input[name="gender"]:checked').val();
 	             var tel = $('#tel').val();
 	             var password = $('#password').val();
@@ -122,7 +114,7 @@
 		              $.ajax({
 		                  type: "POST",
 		                  url: "<%=urlPath %>"+"/user/edit",
-		                  data: {id : <%=userId %>, tel : tel, firstName : firstName, lastName : lastName, gender : gender, password : password},
+		                  data: {id : <%=userId %>, tel : tel, userName : userName, gender : gender, password : password},
 		                  datatype: "json",
 		                  success: function(data){
 		                	  var result = eval("(" + data + ")");

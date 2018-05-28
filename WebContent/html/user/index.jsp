@@ -13,6 +13,7 @@
 <style type="text/css">
 	#table th,td {
         border: 1px solid #000;
+        height: 30px;
     }
     #table a {
         cursor: pointer;
@@ -63,15 +64,15 @@
 	                currentPageIndex = temp.index;
 	                for (var i = 0; i < result.length; i++) {
 	                	htmlStr+= '<tr class="data"><th>' + result[i].pkId 
-	                	+ '</th><th>' + result[i].firstName + result[i].lastName
+	                	+ '</th><th>' + (result[i].userName == null || result[i].userName == '' ? 'N/A' : result[i].userName)
 	                	+ '</th><th>' + (result[i].gender == 'male' ? '男' : '女')
-	                	+ '</th><th>' + result[i].tel
+	                	+ '</th><th>' + (result[i].tel == null || result[i].tel == '' ? 'N/A' : result[i].tel)
 	                	+ '</th><th>' + result[i].createdTime
 	                	+ '</th><th><a href="<%=urlPath %>/user/edit?userId=' + result[i].pkId + '">编辑</a><a class="delete" data-id="'+ result[i].pkId +'">删除</a></th></tr>'
 	                }
 	                $('#table').append(htmlStr);
 	                
-	                if (temp.pageCount == 1) {
+	                if (temp.pageCount <= 1) {
 	                	$('.pageCode').css('display', 'none');
 	                } else {
 	                	if (currentPageIndex == 1) {

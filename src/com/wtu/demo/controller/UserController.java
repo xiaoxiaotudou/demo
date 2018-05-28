@@ -56,13 +56,12 @@ public class UserController {
 
 	@RequestMapping(value="create", method=RequestMethod.POST)
 	@ResponseBody
-	public String createUser(@RequestParam("userName") String userName,
-			@RequestParam("tel") String tel,
-			@RequestParam("firstName") String firstName,
-			@RequestParam("lastName") String lastName,
+	public String createUser(@RequestParam("account") String account,
+			@RequestParam("password") String password,
+			@RequestParam("userName") String userName,
 			@RequestParam("gender") String gender,
-			@RequestParam("password") String password) {
-		boolean result = userServiceImpl.createUser(userName, tel, firstName, lastName, gender, password);
+			@RequestParam("tel") String tel) {
+		boolean result = userServiceImpl.createUser(account, password, userName, gender, tel);
 
 		return JsonUtil.convertObjectToJson(result);
 	}
@@ -70,20 +69,19 @@ public class UserController {
 	@RequestMapping(value="edit", method=RequestMethod.POST)
 	@ResponseBody
 	public String editUser(@RequestParam("id") String id,
-			@RequestParam("tel") String tel,
-			@RequestParam("firstName") String firstName,
-			@RequestParam("lastName") String lastName,
+			@RequestParam("password") String password,
+			@RequestParam("userName") String userName,
 			@RequestParam("gender") String gender,
-			@RequestParam("password") String password) {
-		boolean result = userServiceImpl.editUser(id, tel, firstName, lastName, gender, password);
+			@RequestParam("tel") String tel) {
+		boolean result = userServiceImpl.editUser(id, password, userName, gender, tel);
 
 		return JsonUtil.convertObjectToJson(result);
 	}
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
 	@ResponseBody
-	public String signin(@RequestParam("email") String email, @RequestParam("password") String password) {
-    	return JsonUtil.convertObjectToJson(userServiceImpl.checkSignIn(email, password));
+	public String signin(@RequestParam("account") String account, @RequestParam("password") String password) {
+    	return JsonUtil.convertObjectToJson(userServiceImpl.checkSignIn(account, password));
     }
 
     @RequestMapping(value="/getAllUserByPagination", method=RequestMethod.GET)

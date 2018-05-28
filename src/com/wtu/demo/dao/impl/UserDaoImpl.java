@@ -17,7 +17,7 @@ import com.wtu.demo.util.DBUtil;
 public class UserDaoImpl implements UserDao {
 
     @Override
-    public User getUserByEmail(String email) {
+    public User getUserByEmail(String account) {
         User user = new User();
 
         Connection connection = null;
@@ -26,14 +26,18 @@ public class UserDaoImpl implements UserDao {
 
         try {
             connection = DBUtil.getConnection();
-            preparedStatement = connection.prepareStatement("select * from user where userName = ?");
-            preparedStatement.setString(1, email);
+            preparedStatement = connection.prepareStatement("select * from user where account = ?");
+            preparedStatement.setString(1, account);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 user.setPkId(resultSet.getInt("pkId"));
-                user.setUserName(resultSet.getString("userName"));
+                user.setAccount(resultSet.getString("account"));
                 user.setPassword(resultSet.getString("password"));
+                user.setUserName(resultSet.getString("userName"));
+                user.setGender(resultSet.getString("gender"));
+                user.setAdmin(Boolean.valueOf(resultSet.getString("isAdmin")));
+                user.setTel(resultSet.getString("tel"));
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -55,7 +59,7 @@ public class UserDaoImpl implements UserDao {
 
         try {
             connection = DBUtil.getConnection();
-            preparedStatement = connection.prepareStatement("select pkId, userName, tel, firstName, lastName, gender, createdTime from user where deleted = 0 limit ?,?");
+            preparedStatement = connection.prepareStatement("select pkId, account, userName, tel, gender, createdTime from user where deleted = 0 limit ?,?");
             preparedStatement.setLong(1, (index - 1) * pageSize);
             preparedStatement.setLong(2, pageSize);
 
@@ -64,12 +68,11 @@ public class UserDaoImpl implements UserDao {
             while (resultSet.next()) {
 				User user = new User();
 
-				user.setPkId(resultSet.getLong("pkId"));
-				user.setUserName(resultSet.getString("userName"));
-				user.setTel(resultSet.getString("tel"));
-				user.setFirstName(resultSet.getString("firstName"));
-				user.setLastName(resultSet.getString("lastName"));
-				user.setGender(resultSet.getString("gender"));
+				user.setPkId(resultSet.getInt("pkId"));
+                user.setAccount(resultSet.getString("account"));
+                user.setUserName(resultSet.getString("userName"));
+                user.setGender(resultSet.getString("gender"));
+                user.setTel(resultSet.getString("tel"));
 				user.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
 
 				users.add(user);
@@ -100,12 +103,12 @@ public class UserDaoImpl implements UserDao {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-            	user.setPkId(resultSet.getLong("pkId"));
-				user.setUserName(resultSet.getString("userName"));
-				user.setTel(resultSet.getString("tel"));
-				user.setFirstName(resultSet.getString("firstName"));
-				user.setLastName(resultSet.getString("lastName"));
-				user.setGender(resultSet.getString("gender"));
+                user.setPkId(resultSet.getInt("pkId"));
+                user.setAccount(resultSet.getString("account"));
+                user.setPassword(resultSet.getString("password"));
+                user.setUserName(resultSet.getString("userName"));
+                user.setGender(resultSet.getString("gender"));
+                user.setTel(resultSet.getString("tel"));
 				user.setCreatedTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(resultSet.getTimestamp("createdTime").getTime()));
             }
         } catch (Exception e) {
@@ -144,8 +147,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean createUser(String userName, String tel, String firstName,
-			String lastName, String gender, String password) {
+	public boolean createUser(String account, String password, String userName, String gender, String tel) {
 		Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -154,13 +156,12 @@ public class UserDaoImpl implements UserDao {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("insert into user(userName, password, tel, firstName, lastName, gender) values(?, ?, ?, ?, ?, ?)");
-            preparedStatement.setString(1, userName);
+            preparedStatement = connection.prepareStatement("insert into user(account, password, userName, tel, gender) values(?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, account);
             preparedStatement.setString(2, password);
-            preparedStatement.setString(3, tel);
-            preparedStatement.setString(4, firstName);
-            preparedStatement.setString(5, firstName);
-            preparedStatement.setString(7, gender);
+            preparedStatement.setString(3, userName);
+            preparedStatement.setString(4, tel);
+            preparedStatement.setString(5, gender);
 
             result = !preparedStatement.execute();
         } catch (Exception e) {
@@ -175,8 +176,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean editUser(Long pkId, String tel, String firstName,
-			String lastName, String gender, String password) {
+	public boolean editUser(Long pkId, String password, String userName, String gender, String tel) {
 		Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -185,13 +185,12 @@ public class UserDaoImpl implements UserDao {
         try {
             connection = DBUtil.getConnection();
             connection.setAutoCommit(true);
-            preparedStatement = connection.prepareStatement("update user set password = ?, tel = ?, firstName = ?, lastName = ?, gender = ? where pkId = ?");
+            preparedStatement = connection.prepareStatement("update user set password = ?, userName = ?, gender = ?,  tel = ? where pkId = ?");
             preparedStatement.setString(1, password);
-            preparedStatement.setString(2, tel);
-            preparedStatement.setString(3, firstName);
-            preparedStatement.setString(4, firstName);
-            preparedStatement.setString(5, gender);
-            preparedStatement.setLong(6, pkId);
+            preparedStatement.setString(2, userName);
+            preparedStatement.setString(3, gender);
+            preparedStatement.setString(4, tel);
+            preparedStatement.setLong(5, pkId);
 
             result = !preparedStatement.execute();
         } catch (Exception e) {
