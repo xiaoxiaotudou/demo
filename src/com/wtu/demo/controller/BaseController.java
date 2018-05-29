@@ -9,7 +9,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.wtu.demo.common.AppContext;
 import com.wtu.demo.constants.Constants;
 import com.wtu.demo.util.PathUtil;
-import com.wtu.demo.util.SessionUtil;
 
 public class BaseController {
 
@@ -23,18 +22,6 @@ public class BaseController {
 
     protected RedirectView getRedirectView(String path) {
         return new RedirectView(PathUtil.getFullPath(path));
-    }
-
-    protected void addSession(String key, Object value) {
-        SessionUtil.addSession(key, value);
-    }
-
-    protected Object getSession(String key) {
-        return SessionUtil.getSession(key);
-    }
-
-    protected void removeSession(String key) {
-        SessionUtil.removeSession(key);
     }
 
     protected HttpServletResponse getResponse() {

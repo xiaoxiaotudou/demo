@@ -81,7 +81,14 @@ public class UserController {
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
 	@ResponseBody
 	public String signin(@RequestParam("account") String account, @RequestParam("password") String password) {
-    	return JsonUtil.convertObjectToJson(userServiceImpl.checkSignIn(account, password));
+    	User user = userServiceImpl.checkSignIn(account, password);
+    	boolean result = user.getAccount() != null
+                && user.getPassword() != null
+                && user.getAccount().equals(account)
+                && user.getPassword().equals(password)
+                && user.isAdmin();
+
+    	return JsonUtil.convertObjectToJson(result);
     }
 
     @RequestMapping(value = "/mobile/signin", method = RequestMethod.POST)

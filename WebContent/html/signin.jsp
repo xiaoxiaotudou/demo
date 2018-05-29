@@ -55,10 +55,10 @@
                 datatype: "json",
                 success: function(data){
                      var result = eval("(" + data + ")");
-                     if (result == false) {
-                    	 $('#errorMsg').html("帐号或者密码错误！");
-                     } else {
+                     if (result == true) {
                     	 window.location.href = "<%=urlPath %>" + "/html/index.jsp";
+                     } else {
+                    	 $('#errorMsg').html("帐号或者密码错误！");
                      }
                 }
             });
